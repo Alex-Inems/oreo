@@ -15,7 +15,7 @@ export default function AdminMediaPage() {
     
     setUploading(true);
     try {
-      const newImages = [];
+      const newImages: { url: string; time: number }[] = [];
       for (let i = 0; i < files.length; i++) {
         const url = await uploadToCloudinary(files[i]);
         newImages.push({ url, time: Date.now() });
