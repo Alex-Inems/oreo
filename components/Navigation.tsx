@@ -72,12 +72,20 @@ const Navigation = () => {
                     {userLoaded && (
                         <>
                             {!isSignedIn ? (
-                                <button
-                                    onClick={() => openSignIn()}
-                                    className="text-white hover:text-red-500 transition border border-white/30 px-6 py-2 hover:border-red-500 uppercase tracking-widest text-sm"
-                                >
-                                    Client Login
-                                </button>
+                                <div className="flex items-center gap-6">
+                                    <Link
+                                        href="/sign-in"
+                                        className="text-white hover:text-red-500 transition-colors uppercase tracking-[0.2em] text-[10px] font-black"
+                                    >
+                                        Login
+                                    </Link>
+                                    <Link
+                                        href="/sign-up"
+                                        className="text-white hover:bg-white bg-red-600 border border-red-600 hover:text-black transition-all px-8 py-2.5 rounded-full uppercase tracking-[0.2em] text-[10px] font-black shadow-lg shadow-red-900/20 active:scale-95"
+                                    >
+                                        Join Fleet
+                                    </Link>
+                                </div>
                             ) : (
                                 <div className="relative" onClick={(e) => e.stopPropagation()}>
                                     <button

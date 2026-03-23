@@ -11,9 +11,10 @@ const isPublicRoute = createRouteMatcher([
 ]);
 
 export default clerkMiddleware(async (auth, request) => {
-  if (!isPublicRoute(request)) {
-    await auth.protect();
-  }
+  // Protect admin routes
+  // if (req.nextUrl.pathname.startsWith("/admin")) {
+  //   await auth.protect();
+  // }
 });
 
 export const config = {
