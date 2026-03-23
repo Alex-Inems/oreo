@@ -1,7 +1,8 @@
 "use client";
 
-import { useState } from "react";
-import { Save, Bell, Globe, Shield, Palette, CheckCircle } from "lucide-react";
+import { useState, useEffect } from "react";
+import { Save, Bell, Globe, Shield, Palette, CheckCircle, Loader2 } from "lucide-react";
+import { subscribeSettings, updateSettings, DEFAULT_SETTINGS, SiteSettings } from "@/lib/settings";
 
 interface Section {
   id: string;
@@ -47,55 +48,65 @@ function Toggle({ value, onChange }: { value: boolean; onChange: (v: boolean) =>
 export default function AdminSettingsPage() {
   const [active, setActive] = useState("general");
   const [saved, setSaved] = useState(false);
+  const [saving, setSaving] = useState(false);
+  const [loading, setLoading] = useState(true);
 
-  // General
-  const [siteName, setSiteName] = useState("Velocity Cars26");
-  const [tagline, setTagline] = useState("Performance & Luxury — Redefined");
-  const [contactEmail, setContactEmail] = useState("contact@cars26.com");
-  const [phone, setPhone] = useState("+1 (800) 555-0100");
+  const [settings, setSettings] = useState<SiteSettings>(DEFAULT_SETTINGS);
 
-  // Notifications
-  const [emailNewInquiry, setEmailNewInquiry] = useState(true);
-  const [emailNewReview, setEmailNewReview] = useState(true);
-  const [emailNewUser, setEmailNewUser] = useState(false);
-  const [emailDigest, setEmailDigest] = useState(true);
+  useEffect(() => {
+    const unsub = subscribeSettings((data) => {
+      setSettings(data);
+      setLoading(false);
+    });
+    return () => unsub();
+  }, []);
 
-  // Security
-  const [currentPw, setCurrentPw] = useState("");
-  const [newPw, setNewPw] = useState("");
-  const [confirmPw, setConfirmPw] = useState("");
-  const [twoFactor, setTwoFactor] = useState(false);
+  const updateSetting = (key: keyof SiteSettings, value: any) => {
+    setSettings((prev) => ({ ...prev, [key]: value }));
+  };
 
-  // Appearance
-  const [accentColor, setAccentColor] = useState("#dc2626");
-  const [darkMode, setDarkMode] = useState(true);
-  const [showSoldBadge, setShowSoldBadge] = useState(true);
-
-  const handleSave = () => {
+  const handleSave = async () => {
+    setSaving(true);
+    await updateSettings(settings);
+    setSaving(false);
     setSaved(true);
     setTimeout(() => setSaved(false), 2500);
   };
 
+  if (loading) {
+    return (
+      <div className="flex flex-col items-center justify-center h-[60vh] gap-4">
+        <Loader2 className="w-8 h-8 text-red-600 animate-spin" />
+        <p className="text-zinc-500 font-medium tracking-widest text-xs uppercase">Loading Settings...</p>
+      </div>
+    );
+  }
+
   return (
     <div className="p-6 md:p-10 pt-20 md:pt-10 space-y-8">
       {/* Header */}
-      <div className="flex items-center justify-between">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>
           <h1 className="text-3xl font-bold text-white tracking-tight">Settings</h1>
           <p className="text-zinc-500 text-sm mt-1">Manage your site preferences and admin options.</p>
         </div>
         <button
           onClick={handleSave}
-          className="flex items-center gap-2 px-5 py-2.5 bg-red-600 hover:bg-red-500 text-white text-sm font-semibold rounded-lg transition-all shadow-lg shadow-red-900/30"
+          disabled={saving}
+          className={`flex items-center justify-center gap-2 px-6 py-2.5 text-sm font-semibold rounded-lg transition-all shadow-lg ${
+            saved 
+              ? "bg-emerald-600 hover:bg-emerald-500 text-white shadow-emerald-900/40" 
+              : "bg-red-600 hover:bg-red-500 text-white shadow-red-900/30 disabled:opacity-50"
+          }`}
         >
-          {saved ? <CheckCircle className="w-4 h-4" /> : <Save className="w-4 h-4" />}
-          {saved ? "Saved!" : "Save Changes"}
+          {saving ? <Loader2 className="w-4 h-4 animate-spin text-white" /> : (saved ? <CheckCircle className="w-4 h-4" /> : <Save className="w-4 h-4" />)}
+          {saving ? "Saving..." : (saved ? "Saved!" : "Save Changes")}
         </button>
       </div>
 
       <div className="flex gap-6 flex-col lg:flex-row">
         {/* Sidebar tabs */}
-        <nav className="flex lg:flex-col gap-1 overflow-x-auto lg:w-48 shrink-0">
+        <nav className="flex lg:flex-col gap-1 overflow-x-auto scrollbar-hide lg:w-48 shrink-0">
           {SECTIONS.map(({ id, label, icon: Icon }) => (
             <button
               key={id}
@@ -113,36 +124,36 @@ export default function AdminSettingsPage() {
         </nav>
 
         {/* Panel */}
-        <div className="flex-1 bg-[#111] border border-white/6 rounded-xl px-8 py-2">
+        <div className="flex-1 bg-[#111] border border-white/6 rounded-xl px-4 sm:px-8 py-2">
           {/* ── General ── */}
           {active === "general" && (
             <>
               <InputRow label="Site Name" sub="Displayed in the browser tab and admin header.">
                 <input
-                  value={siteName}
-                  onChange={(e) => setSiteName(e.target.value)}
+                  value={settings.siteName}
+                  onChange={(e) => updateSetting("siteName", e.target.value)}
                   className="w-full px-4 py-2.5 rounded-lg bg-white/3 border border-white/8 text-white text-sm focus:outline-none focus:ring-1 focus:ring-red-500 focus:border-red-500 transition-all"
                 />
               </InputRow>
               <InputRow label="Tagline" sub="Subtitle shown in the hero section.">
                 <input
-                  value={tagline}
-                  onChange={(e) => setTagline(e.target.value)}
+                  value={settings.tagline}
+                  onChange={(e) => updateSetting("tagline", e.target.value)}
                   className="w-full px-4 py-2.5 rounded-lg bg-white/3 border border-white/8 text-white text-sm focus:outline-none focus:ring-1 focus:ring-red-500 focus:border-red-500 transition-all"
                 />
               </InputRow>
               <InputRow label="Contact Email" sub="Public contact email for the support page.">
                 <input
                   type="email"
-                  value={contactEmail}
-                  onChange={(e) => setContactEmail(e.target.value)}
+                  value={settings.contactEmail}
+                  onChange={(e) => updateSetting("contactEmail", e.target.value)}
                   className="w-full px-4 py-2.5 rounded-lg bg-white/3 border border-white/8 text-white text-sm focus:outline-none focus:ring-1 focus:ring-red-500 focus:border-red-500 transition-all"
                 />
               </InputRow>
               <InputRow label="Phone Number" sub="Shown in the footer and contact page.">
                 <input
-                  value={phone}
-                  onChange={(e) => setPhone(e.target.value)}
+                  value={settings.phone}
+                  onChange={(e) => updateSetting("phone", e.target.value)}
                   className="w-full px-4 py-2.5 rounded-lg bg-white/3 border border-white/8 text-white text-sm focus:outline-none focus:ring-1 focus:ring-red-500 focus:border-red-500 transition-all"
                 />
               </InputRow>
@@ -153,16 +164,16 @@ export default function AdminSettingsPage() {
           {active === "notifications" && (
             <>
               <InputRow label="New Inquiry" sub="Get notified when a customer submits an inquiry.">
-                <Toggle value={emailNewInquiry} onChange={setEmailNewInquiry} />
+                <Toggle value={settings.emailNewInquiry} onChange={(v) => updateSetting("emailNewInquiry", v)} />
               </InputRow>
               <InputRow label="New Review" sub="Get notified when a customer submits a review.">
-                <Toggle value={emailNewReview} onChange={setEmailNewReview} />
+                <Toggle value={settings.emailNewReview} onChange={(v) => updateSetting("emailNewReview", v)} />
               </InputRow>
               <InputRow label="New User Registration" sub="Get notified when a new client account is created.">
-                <Toggle value={emailNewUser} onChange={setEmailNewUser} />
+                <Toggle value={settings.emailNewUser} onChange={(v) => updateSetting("emailNewUser", v)} />
               </InputRow>
               <InputRow label="Daily Digest" sub="Receive a daily summary email with key metrics.">
-                <Toggle value={emailDigest} onChange={setEmailDigest} />
+                <Toggle value={settings.emailDigest} onChange={(v) => updateSetting("emailDigest", v)} />
               </InputRow>
             </>
           )}
@@ -173,8 +184,8 @@ export default function AdminSettingsPage() {
               <InputRow label="Current Password" sub="Enter your current password to make changes.">
                 <input
                   type="password"
-                  value={currentPw}
-                  onChange={(e) => setCurrentPw(e.target.value)}
+                  value=""
+                  onChange={() => {}}
                   placeholder="••••••••"
                   className="w-full px-4 py-2.5 rounded-lg bg-white/3 border border-white/8 text-white text-sm focus:outline-none focus:ring-1 focus:ring-red-500 focus:border-red-500 transition-all"
                 />
@@ -182,23 +193,14 @@ export default function AdminSettingsPage() {
               <InputRow label="New Password">
                 <input
                   type="password"
-                  value={newPw}
-                  onChange={(e) => setNewPw(e.target.value)}
-                  placeholder="••••••••"
-                  className="w-full px-4 py-2.5 rounded-lg bg-white/3 border border-white/8 text-white text-sm focus:outline-none focus:ring-1 focus:ring-red-500 focus:border-red-500 transition-all"
-                />
-              </InputRow>
-              <InputRow label="Confirm Password">
-                <input
-                  type="password"
-                  value={confirmPw}
-                  onChange={(e) => setConfirmPw(e.target.value)}
+                  value=""
+                  onChange={() => {}}
                   placeholder="••••••••"
                   className="w-full px-4 py-2.5 rounded-lg bg-white/3 border border-white/8 text-white text-sm focus:outline-none focus:ring-1 focus:ring-red-500 focus:border-red-500 transition-all"
                 />
               </InputRow>
               <InputRow label="Two-Factor Authentication" sub="Add an extra layer of security to your account.">
-                <Toggle value={twoFactor} onChange={setTwoFactor} />
+                <Toggle value={settings.twoFactor} onChange={(v) => updateSetting("twoFactor", v)} />
               </InputRow>
             </>
           )}
@@ -210,18 +212,18 @@ export default function AdminSettingsPage() {
                 <div className="flex items-center gap-3">
                   <input
                     type="color"
-                    value={accentColor}
-                    onChange={(e) => setAccentColor(e.target.value)}
+                    value={settings.accentColor}
+                    onChange={(e) => updateSetting("accentColor", e.target.value)}
                     className="w-10 h-10 rounded-lg cursor-pointer border border-white/10 bg-transparent"
                   />
-                  <span className="text-sm text-zinc-400 font-mono">{accentColor}</span>
+                  <span className="text-sm text-zinc-400 font-mono">{settings.accentColor}</span>
                 </div>
               </InputRow>
               <InputRow label="Dark Mode" sub="Use dark theme across the admin panel.">
-                <Toggle value={darkMode} onChange={setDarkMode} />
+                <Toggle value={settings.darkMode} onChange={(v) => updateSetting("darkMode", v)} />
               </InputRow>
               <InputRow label="Show Sold Badge" sub="Display 'SOLD' overlay on sold vehicles in inventory.">
-                <Toggle value={showSoldBadge} onChange={setShowSoldBadge} />
+                <Toggle value={settings.showSoldBadge} onChange={(v) => updateSetting("showSoldBadge", v)} />
               </InputRow>
             </>
           )}

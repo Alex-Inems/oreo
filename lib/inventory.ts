@@ -1,7 +1,7 @@
 import { db } from "./firebase";
 import { 
   collection, addDoc, getDocs, updateDoc, 
-  deleteDoc, doc, query, orderBy, getDoc 
+  deleteDoc, doc, query, orderBy, getDoc, onSnapshot
 } from "firebase/firestore";
 
 export interface CarSpec {
@@ -30,6 +30,15 @@ export interface Car {
 const COLLECTION_NAME = "inventory";
 
 // ─── CRUD Helpers ─────────────────────────────────────────────────────────────
+
+export function subscribeInventory(callback: (data: Car[]) => void) {
+  const q = query(collection(db, COLLECTION_NAME), orderBy("createdAt", "desc"));
+  return onSnapshot(q, (snapshot) => {
+    callback(snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() } as Car)));
+  }, (err) => {
+    console.error("Inventory: Failed to subscribe", err);
+  });
+}
 
 export async function getAllCars(): Promise<Car[]> {
   try {

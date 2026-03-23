@@ -17,7 +17,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
       <div className={`${geist.variable} font-sans`}>
         <AdminGuard>
           <AdminSidebar />
-          <main className="md:pl-64 min-h-screen bg-[#0a0a0a] text-white">
+          <main className="md:pl-64 pt-20 md:pt-0 min-h-screen bg-[#0a0a0a] text-white">
             {children}
           </main>
         </AdminGuard>

@@ -1,5 +1,5 @@
 import { db } from "./firebase";
-import { doc, getDoc, setDoc } from "firebase/firestore";
+import { doc, getDoc, setDoc, onSnapshot } from "firebase/firestore";
 
 // ─── Default Content ──────────────────────────────────────────────────────────
 // This is used as a fallback and as the initial data if Firestore is empty.
@@ -34,6 +34,21 @@ export async function getSiteContent(): Promise<SiteContent> {
         console.error("CMS: Failed to fetch content", err);
         return DEFAULT_CONTENT;
     }
+}
+
+export function subscribeSiteContent(callback: (data: SiteContent) => void): () => void {
+    const docRef = doc(db, "site", "content");
+    const unsubscribe = onSnapshot(docRef, (docSnap) => {
+        if (docSnap.exists()) {
+            callback(docSnap.data() as SiteContent);
+        } else {
+            callback(DEFAULT_CONTENT);
+        }
+    }, (error) => {
+        console.error("CMS: Failed to fetch onSnapshot", error);
+        callback(DEFAULT_CONTENT);
+    });
+    return unsubscribe;
 }
 
 export async function updateSiteContent(data: Partial<SiteContent>): Promise<void> {

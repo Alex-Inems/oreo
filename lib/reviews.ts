@@ -1,7 +1,7 @@
 import { db } from "./firebase";
 import { 
   collection, addDoc, getDocs, updateDoc, 
-  deleteDoc, doc, query, orderBy, getDoc 
+  deleteDoc, doc, query, orderBy, onSnapshot 
 } from "firebase/firestore";
 
 export interface Review {
@@ -20,6 +20,13 @@ export interface Review {
 const COLLECTION_NAME = "reviews";
 
 // ─── CRUD Helpers ─────────────────────────────────────────────────────────────
+
+export function subscribeReviews(callback: (data: Review[]) => void) {
+  const q = query(collection(db, COLLECTION_NAME), orderBy("createdAt", "desc"));
+  return onSnapshot(q, (snapshot) => {
+    callback(snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() } as Review)));
+  });
+}
 
 export async function getAllReviews(): Promise<Review[]> {
   try {

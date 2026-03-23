@@ -21,8 +21,10 @@ import { useRouter } from "next/navigation";
 
 const NAV = [
   { label: "Dashboard",       href: "/admin",            icon: LayoutDashboard },
-  { label: "Site Content",    href: "/admin/content",    icon: FileText },
+  { label: "Pages",           href: "/admin/pages",      icon: FileText },
+  { label: "Site Content",    href: "/admin/content",    icon: LayoutDashboard },
   { label: "Inventory",       href: "/admin/inventory",  icon: ListOrdered },
+  { label: "Media",           href: "/admin/media",      icon: Car }, // Placeholder icon if Image isn't imported
   { label: "Reviews",         href: "/admin/reviews",    icon: Star },
   { label: "Inquiries",       href: "/admin/inquiries",  icon: MessageSquare },
   { label: "Settings",        href: "/admin/settings",   icon: Settings },

@@ -1,10 +1,10 @@
 "use client";
 
-import { useState } from "react";
-import { INQUIRIES, Inquiry } from "@/lib/data";
+import { useState, useEffect } from "react";
+import { subscribeInquiries, updateInquiry, deleteInquiry, Inquiry } from "@/lib/inquiries";
 import {
   MessageSquare, Search, Mail, Phone, Car,
-  CheckCheck, Circle, XCircle, ChevronDown, ChevronUp, Trash2,
+  CheckCheck, Circle, XCircle, ChevronDown, ChevronUp, Trash2, Loader2
 } from "lucide-react";
 
 function Badge({ status }: { status: Inquiry["status"] }) {
@@ -26,8 +26,8 @@ function InquiryRow({
   onDelete,
 }: {
   inq: Inquiry;
-  onUpdate: (id: number, status: Inquiry["status"]) => void;
-  onDelete: (id: number) => void;
+  onUpdate: (id: string, status: Inquiry["status"]) => void;
+  onDelete: (id: string) => void;
 }) {
   const [expanded, setExpanded] = useState(false);
 
@@ -85,27 +85,27 @@ function InquiryRow({
           <div className="flex flex-wrap gap-2 pt-1 border-t border-white/5">
             <button
               disabled={inq.status === "new"}
-              onClick={() => onUpdate(inq.id, "new")}
+              onClick={() => onUpdate(inq.id!, "new")}
               className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-medium bg-blue-500/10 text-blue-400 border border-blue-500/20 hover:bg-blue-500/20 disabled:opacity-30 disabled:cursor-not-allowed transition-all"
             >
               <Circle className="w-3 h-3" /> Mark New
             </button>
             <button
               disabled={inq.status === "contacted"}
-              onClick={() => onUpdate(inq.id, "contacted")}
+              onClick={() => onUpdate(inq.id!, "contacted")}
               className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-medium bg-purple-500/10 text-purple-400 border border-purple-500/20 hover:bg-purple-500/20 disabled:opacity-30 disabled:cursor-not-allowed transition-all"
             >
               <CheckCheck className="w-3 h-3" /> Mark Contacted
             </button>
             <button
               disabled={inq.status === "closed"}
-              onClick={() => onUpdate(inq.id, "closed")}
+              onClick={() => onUpdate(inq.id!, "closed")}
               className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-medium bg-zinc-500/10 text-zinc-400 border border-zinc-500/20 hover:bg-zinc-500/20 disabled:opacity-30 disabled:cursor-not-allowed transition-all"
             >
               <XCircle className="w-3 h-3" /> Close
             </button>
             <button
-              onClick={() => onDelete(inq.id)}
+              onClick={() => onDelete(inq.id!)}
               className="ml-auto flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-medium text-red-400 border border-red-500/10 bg-red-500/5 hover:bg-red-500/15 transition-all"
             >
               <Trash2 className="w-3 h-3" /> Delete
@@ -118,14 +118,27 @@ function InquiryRow({
 }
 
 export default function AdminInquiriesPage() {
-  const [inquiries, setInquiries] = useState<Inquiry[]>(INQUIRIES);
+  const [inquiries, setInquiries] = useState<Inquiry[]>([]);
+  const [loading, setLoading] = useState(true);
   const [filter, setFilter] = useState<"all" | Inquiry["status"]>("all");
   const [search, setSearch] = useState("");
 
-  const update = (id: number, status: Inquiry["status"]) =>
-    setInquiries((list) => list.map((i) => (i.id === id ? { ...i, status } : i)));
+  useEffect(() => {
+    const unsub = subscribeInquiries((data) => {
+      setInquiries(data);
+      setLoading(false);
+    });
+    return () => unsub();
+  }, []);
 
-  const remove = (id: number) => setInquiries((list) => list.filter((i) => i.id !== id));
+  const update = async (id: string, status: Inquiry["status"]) => {
+    await updateInquiry(id, status);
+  };
+
+  const remove = async (id: string) => {
+    if (!confirm("Delete this inquiry?")) return;
+    await deleteInquiry(id);
+  };
 
   const filtered = inquiries.filter((i) => {
     const matchFilter = filter === "all" || i.status === filter;

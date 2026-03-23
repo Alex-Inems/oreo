@@ -1,25 +1,37 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Link from "next/link";
-
-const CARS = [
-    { id: 1, name: "Model X Plaid", year: 2025, category: "Electric", price: "$120,000", image: "https://images.unsplash.com/photo-1560958089-b8a1929cea89?auto=format&fit=crop&w=800&q=80", range: "300mi", speed: "1.9s" },
-    { id: 2, name: "Lamborghini Aventador", year: 2024, category: "Supercars", price: "$500,000", image: "public/images/aventador.jpg", range: "N/A", speed: "2.5s" },
-    { id: 3, name: "Mercedes G-Wagon", year: 2025, category: "SUVs", price: "$180,000", image: "https://images.unsplash.com/photo-1520031441872-265e4ff70366?auto=format&fit=crop&w=800&q=80", range: "N/A", speed: "4.5s" },
-    { id: 4, name: "Porsche 911 GT3", year: 2024, category: "Supercars", price: "$200,000", image: "https://images.unsplash.com/photo-1614200187524-dc4b892acf16?auto=format&fit=crop&w=800&q=80", range: "N/A", speed: "3.2s" },
-    { id: 5, name: "Tesla Model S Plaid", year: 2025, category: "Electric", price: "$110,000", image: "https://images.unsplash.com/photo-1617788138017-80ad40651399?auto=format&fit=crop&w=800&q=80", range: "396mi", speed: "1.99s" },
-    { id: 6, name: "BMW M5 CS", year: 2023, category: "Sedans", price: "$145,000", image: "https://images.unsplash.com/photo-1555008872-f03b347ffb53?auto=format&fit=crop&w=800&q=80", range: "N/A", speed: "2.9s" },
-];
-
-const FILTERS = ["All", "Supercars", "SUVs", "Sedans", "Electric"];
+import { subscribeInventory, Car as InventoryCar } from "@/lib/inventory";
+import { Loader2 } from "lucide-react";
 
 export default function InventoryClient() {
     const [activeFilter, setActiveFilter] = useState("All");
+    const [cars, setCars] = useState<InventoryCar[]>([]);
+    const [loading, setLoading] = useState(true);
+
+    useEffect(() => {
+        const unsub = subscribeInventory((data) => {
+            setCars(data);
+            setLoading(false);
+        });
+        return () => unsub();
+    }, []);
+
+    const FILTERS = ["All", ...Array.from(new Set(cars.map((c) => c.bodyType).filter(Boolean)))];
 
     const filteredCars = activeFilter === "All" 
-        ? CARS 
-        : CARS.filter(car => car.category === activeFilter);
+        ? cars 
+        : cars.filter((car) => car.bodyType === activeFilter);
+
+    if (loading) {
+        return (
+            <div className="bg-black text-white min-h-screen flex flex-col items-center justify-center gap-4">
+                <Loader2 className="w-10 h-10 animate-spin text-red-600" />
+                <p className="text-sm font-bold tracking-[0.2em] uppercase text-zinc-500">Loading Fleet...</p>
+            </div>
+        );
+    }
 
     return (
         <div className="bg-black text-white min-h-screen">
@@ -50,29 +62,37 @@ export default function InventoryClient() {
                     <div className="text-center text-zinc-500 py-20 uppercase tracking-widest">No vehicles found in this category.</div>
                 ) : (
                     <div className="grid md:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4 min-[2000px]:grid-cols-5 min-[3000px]:grid-cols-6 gap-8 text-left">
-                        {filteredCars.map(car => (
-                            <div key={car.id} className="group bg-zinc-900 border border-zinc-800 hover:border-red-600 transition duration-500">
+                        {filteredCars.map((car) => {
+                            const speedSpec = car.specs?.find((s) => s.label.toLowerCase().includes("0-60"))?.value || "N/A";
+                            const rangeSpec = car.specs?.find((s) => s.label.toLowerCase().includes("range"))?.value;
+                            return (
+                            <div key={car.id!} className="group bg-zinc-900 border border-zinc-800 hover:border-red-600 transition duration-500">
                                 <Link href={`/inventory/${car.id}`} className="h-64 relative overflow-hidden group block">
-                                    <img src={car.image} alt={car.name} className="w-full h-full object-cover group-hover:scale-105 transition duration-500" />
+                                    <img src={car.image} alt={car.model} className="w-full h-full object-cover group-hover:scale-105 transition duration-500" />
                                     <div className="absolute inset-0 bg-zinc-700/80 translate-y-full group-hover:translate-y-0 transition duration-500 flex items-center justify-center">
                                         <span className="text-sm font-bold uppercase tracking-widest cursor-pointer">View Details</span>
                                     </div>
+                                    {car.condition === "New" && (
+                                       <span className="absolute top-4 left-4 bg-red-600 text-white px-3 py-1 text-[10px] font-black uppercase tracking-widest">Just Inducted</span>
+                                    )}
                                 </Link>
                                 <div className="p-6">
                                     <div className="flex justify-between items-start mb-4">
                                         <div>
-                                            <h3 className="text-xl font-bold">{car.name}</h3>
-                                            <p className="text-xs text-zinc-500 uppercase tracking-widest">{car.year} • {car.category}</p>
+                                            <h3 className="text-xl font-bold">{car.make} {car.model}</h3>
+                                            <p className="text-xs text-zinc-500 uppercase tracking-widest">{car.year} • {car.bodyType}</p>
                                         </div>
-                                        <span className="text-red-500 font-bold">{car.price}</span>
+                                        <span className="text-red-500 font-bold">${car.price.toLocaleString()}</span>
                                     </div>
-                                    <div className="flex gap-4 text-xs text-zinc-400 border-t border-zinc-800 pt-4">
-                                        <span>0-60: {car.speed}</span>
-                                        {car.range !== "N/A" && <span>Range: {car.range}</span>}
+                                    <div className="flex gap-4 text-xs text-zinc-400 border-t border-zinc-800 pt-4 font-mono">
+                                        <span>0-60: {speedSpec}</span>
+                                        {rangeSpec && <span>Range: {rangeSpec}</span>}
+                                        {!rangeSpec && <span>{car.mileage.toLocaleString()} mi</span>}
                                     </div>
                                 </div>
                             </div>
-                        ))}
+                            );
+                        })}
                     </div>
                 )}
             </section>

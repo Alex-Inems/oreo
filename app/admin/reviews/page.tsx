@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect, useCallback } from "react";
-import { getAllReviews, addReview, updateReview, deleteReview, Review } from "@/lib/reviews";
+import { subscribeReviews, addReview, updateReview, deleteReview, Review } from "@/lib/reviews";
 import { uploadToCloudinary } from "@/lib/cloudinary-client";
 import { 
   Star, CheckCircle2, XCircle, Clock, Search, 
@@ -184,19 +184,17 @@ export default function AdminReviewsPage() {
   const [search, setSearch] = useState("");
   const [editReview, setEditReview] = useState<Partial<Review> | null | undefined>(undefined);
 
-  const fetchReviews = useCallback(async () => {
-    setLoading(true);
-    const data = await getAllReviews();
-    setReviews(data);
-    setLoading(false);
+  useEffect(() => {
+    const unsub = subscribeReviews((data) => {
+      setReviews(data);
+      setLoading(false);
+    });
+    return () => unsub();
   }, []);
-
-  useEffect(() => { fetchReviews(); }, [fetchReviews]);
 
   const handleDelete = async (id: string) => {
     if (!confirm("Are you sure? This is permanent.")) return;
     await deleteReview(id);
-    fetchReviews();
   };
 
   const filtered = reviews.filter(r => 
@@ -276,7 +274,7 @@ export default function AdminReviewsPage() {
       )}
 
       {editReview !== undefined && (
-        <ReviewModal review={editReview} onClose={() => setEditReview(undefined)} onSave={() => { setEditReview(undefined); fetchReviews(); }} />
+        <ReviewModal review={editReview} onClose={() => setEditReview(undefined)} onSave={() => setEditReview(undefined)} />
       )}
     </div>
   );

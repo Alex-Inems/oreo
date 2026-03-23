@@ -2,9 +2,13 @@
 
 import { Car, Mail, Phone } from "lucide-react";
 import { useSiteContent } from "@/hooks/useSiteContent";
+import { usePathname } from "next/navigation";
 
 const Footer = () => {
     const { content } = useSiteContent();
+    const pathname = usePathname();
+
+    if (pathname?.startsWith("/admin")) return null;
 
     return (
         <footer className="bg-black text-white pt-24 pb-12 border-t border-white/5">

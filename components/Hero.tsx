@@ -33,10 +33,19 @@ const Hero = () => {
                     initial={{ opacity: 0, y: 30 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ duration: 0.8, delay: 0.2 }}
-                    className="text-7xl md:text-8xl font-light mt-6 mb-6 uppercase"
+                    className="text-7xl md:text-8xl font-light mt-6 mb-8 uppercase"
                 >
                     {content.hero.title}
                 </motion.h1>
+
+                <motion.h3
+                    initial={{ opacity: 0, y: 30 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.8, delay: 0.3 }}
+                    className="text-lg md:text-xl font-bold text-red-500 uppercase tracking-[0.4em] mb-4"
+                >
+                    {content.mission.heading}
+                </motion.h3>
 
                 <motion.p 
                     initial={{ opacity: 0, y: 30 }}

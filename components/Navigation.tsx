@@ -24,6 +24,8 @@ const Navigation = () => {
         return () => window.removeEventListener("scroll", onScroll);
     }, []);
 
+    if (pathname?.startsWith("/admin")) return null;
+
     // Close user dropdown on outside click
     useEffect(() => {
         if (!userMenuOpen) return;

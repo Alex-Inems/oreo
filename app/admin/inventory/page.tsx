@@ -49,27 +49,44 @@ function CarModal({
   );
   const [uploading, setUploading] = useState(false);
   const [saving, setSaving] = useState(false);
+  const [error, setError] = useState<string | null>(null);
 
-  const set = (key: keyof Car, val: any) =>
+  const set = (key: keyof Car, val: any) => {
     setForm((f) => ({ ...f, [key]: val }));
+    if (error) setError(null); // clear error when modifying fields
+  };
 
   const handleImageUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (!file) return;
 
     setUploading(true);
+    setError(null);
     try {
       const url = await uploadToCloudinary(file);
       set("image", url);
     } catch (err) {
-      alert("Upload failed. Check console.");
+      setError("Image upload failed. Please verify your internet connection or Cloudinary API keys.");
     } finally {
       setUploading(false);
     }
   };
 
   const handleSave = async () => {
-    if (!form.make || !form.model || !form.price) return;
+    setError(null);
+    if (!form.make || form.make.trim() === "") {
+        setError("Vehicle Maker field is required.");
+        return;
+    }
+    if (!form.model || form.model.trim() === "") {
+        setError("Vehicle Model field is required.");
+        return;
+    }
+    if (form.price === undefined || form.price < 0) {
+        setError("Please provide a valid numerical price.");
+        return;
+    }
+
     setSaving(true);
     try {
       if (isNew) {
@@ -78,6 +95,9 @@ function CarModal({
         await updateCar(car.id!, form);
       }
       onSave();
+    } catch (err: any) {
+      console.error(err);
+      setError(`Database Error: ${err.message || "Failed to commit changes."}`);
     } finally {
       setSaving(false);
     }
@@ -122,6 +142,13 @@ function CarModal({
         {/* Scrollable Content */}
         <div className="flex-1 overflow-y-auto px-10 py-8 space-y-12 scrollbar-thin scrollbar-thumb-zinc-800">
           
+          {error && (
+            <div className="bg-red-500/10 border border-red-500/20 text-red-400 text-sm px-5 py-4 rounded-xl flex items-start gap-3">
+               <Info className="w-5 h-5 text-red-500 shrink-0 mt-0.5" />
+               <p className="leading-relaxed">{error}</p>
+            </div>
+          )}
+
           {/* Grid: Basic Info */}
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             <div className="md:col-span-2 space-y-6">
