@@ -13,7 +13,7 @@ const Footer = () => {
     return (
         <footer className="bg-black text-white pt-24 pb-12 border-t border-white/5">
             <div className="max-w-[95vw] min-[2000px]:max-w-[2400px] min-[3000px]:max-w-[3200px] mx-auto px-8 grid grid-cols-1 lg:grid-cols-12 gap-16">
-                
+
                 {/* Brand */}
                 <div className="lg:col-span-4 space-y-6">
                     <div className="flex items-center gap-3 tracking-[0.4em] font-bold text-xl uppercase">
@@ -71,7 +71,7 @@ const Footer = () => {
 
             <div className="max-w-[95vw] min-[2000px]:max-w-[2400px] min-[3000px]:max-w-[3200px] mx-auto px-8 pt-16 mt-16 border-t border-white/5 flex flex-col md:flex-row justify-between gap-6">
                 <p className="text-zinc-600 text-[10px] uppercase tracking-widest font-black">
-                    © {new Date().getFullYear()} VELOCITY Group. Engineered to Perfection.
+                    © {new Date().getFullYear()} oreo Group. Engineered to Perfection.
                 </p>
                 <div className="flex gap-8">
                     <span className="text-zinc-700 text-[10px] uppercase tracking-[0.2em] hover:text-zinc-500 transition font-bold cursor-default">Washington iad1</span>

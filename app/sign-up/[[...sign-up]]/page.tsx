@@ -11,11 +11,11 @@ export default function SignUpPage() {
 
       <Link href="/" className="flex items-center gap-3 text-white tracking-[0.4em] text-xl font-bold mb-12 relative z-10 group">
         <Car className="w-8 h-8 text-red-600 group-hover:rotate-[-5deg] transition-transform" />
-        VELOCITY
+        oreo
       </Link>
 
       <div className="relative z-10 w-full flex justify-center">
-        <SignUp 
+        <SignUp
           appearance={{
             elements: {
               card: "bg-zinc-900 border border-white/5 shadow-2xl rounded-3xl",
@@ -38,7 +38,7 @@ export default function SignUpPage() {
       </div>
 
       <p className="mt-12 text-[9px] text-zinc-700 uppercase tracking-[0.4em] font-black relative z-10">
-        © {new Date().getFullYear()} Velocity Group · Join the Elite Fleet
+        © {new Date().getFullYear()} oreo Group · Join the Elite Fleet
       </p>
     </div>
   );

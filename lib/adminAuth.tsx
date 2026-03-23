@@ -5,7 +5,7 @@ import { createContext, useContext, useState, useEffect, ReactNode } from "react
 // In a real application these would be verified server-side.
 // For this demo, a single admin account is accepted.
 const ADMIN_EMAIL = "admin@cars26.com";
-const ADMIN_PASSWORD = "velocity2025";
+const ADMIN_PASSWORD = "oreo2025";
 
 interface AdminUser {
   email: string;

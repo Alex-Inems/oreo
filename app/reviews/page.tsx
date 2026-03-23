@@ -2,7 +2,7 @@ const REVIEWS = [
     {
         name: "Michael R.",
         title: "Unreal Experience",
-        content: "Purchasing my GT3 RS from Velocity was seamless. They handled transport, customs, and financing efficiently.",
+        content: "Purchasing my GT3 RS from oreo was seamless. They handled transport, customs, and financing efficiently.",
         image: "1500648767791-00dcc994a43e"
     },
     {
@@ -20,13 +20,13 @@ const REVIEWS = [
     {
         name: "Elena S.",
         title: "Efficient & Professional",
-        content: "From the first inquiry to the delivery in my driveway, the team at Velocity was top-notch.",
+        content: "From the first inquiry to the delivery in my driveway, the team at oreo was top-notch.",
         image: "1438761681033-6461ffad8d80"
     },
     {
         name: "Marcus T.",
         title: "The Real Deal",
-        content: "Authenticity matters when buying rare specs. Velocity verified everything. Highly recommended.",
+        content: "Authenticity matters when buying rare specs. oreo verified everything. Highly recommended.",
         image: "1472099645785-5658abf4ff4e"
     },
     {
@@ -129,7 +129,7 @@ export default function ReviewsPage() {
             {/* 6. Instagram Feed */}
             <section className="py-24 px-8 border-t border-zinc-800">
                 <div className="flex justify-between items-end mb-8 w-full max-w-[95vw] min-[2000px]:max-w-[2400px] min-[3000px]:max-w-[3200px] mx-auto">
-                    <h2 className="text-2xl font-black uppercase italic">#VelocityCars</h2>
+                    <h2 className="text-2xl font-black uppercase italic">#oreoCars</h2>
                     <a href="#" className="text-red-600 text-xs font-bold uppercase hover:underline">Follow Us</a>
                 </div>
                 <div className="grid grid-cols-2 md:grid-cols-4 gap-2 w-full max-w-[95vw] min-[2000px]:max-w-[2400px] min-[3000px]:max-w-[3200px] mx-auto">

@@ -2,7 +2,7 @@ import { db } from "./firebase";
 import { doc, setDoc, onSnapshot } from "firebase/firestore";
 
 export const DEFAULT_SETTINGS = {
-    siteName: "Velocity Cars26",
+    siteName: "oreo Cars26",
     tagline: "Performance & Luxury — Redefined",
     contactEmail: "contact@cars26.com",
     phone: "+1 (800) 555-0100",

@@ -3,7 +3,7 @@
 const Process = () => (
     <section className="py-32 bg-white text-black">
         <div className="w-full max-w-[95vw] min-[2000px]:max-w-[2400px] min-[3000px]:max-w-[3200px] mx-auto px-8">
-            <h2 className="text-5xl font-light mb-24 text-center text-gray-900">The Velocity Process</h2>
+            <h2 className="text-5xl font-light mb-24 text-center text-gray-900">The oreo Process</h2>
             <div className="grid md:grid-cols-3 gap-24 relative">
                 {/* Connection Line */}
                 <div className="hidden md:block absolute top-12 left-0 w-full h-px bg-gray-100 -z-0" />

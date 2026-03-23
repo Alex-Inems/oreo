@@ -5,17 +5,17 @@ import { doc, getDoc, setDoc, onSnapshot } from "firebase/firestore";
 // This is used as a fallback and as the initial data if Firestore is empty.
 export const DEFAULT_CONTENT = {
     hero: {
-        title:    "REDEFINE THE EXTRAORDINARY",
-        subtitle: "Experience Velocity",
-        cta:      "View Collection",
+        title: "REDEFINE THE EXTRAORDINARY",
+        subtitle: "Experience oreo",
+        cta: "View Collection",
     },
     mission: {
         heading: "BEYOND PERFORMANCE",
-        text:    "At Velocity, we believe a car is more than just transportation. It's an expression of your soul, a masterpiece of engineering, and a portal to pure adrenaline.",
+        text: "At oreo, we believe a car is more than just transportation. It's an expression of your soul, a masterpiece of engineering, and a portal to pure adrenaline.",
     },
-    footer_tagline: "VELOCITY CARS26",
-    contact_email:  "sales@cars26.com",
-    contact_phone:  "+1 (555) 012-3456",
+    footer_tagline: "oreo CARS26",
+    contact_email: "sales@cars26.com",
+    contact_phone: "+1 (555) 012-3456",
 };
 
 export type SiteContent = typeof DEFAULT_CONTENT;

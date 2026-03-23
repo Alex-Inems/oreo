@@ -17,7 +17,7 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-    title: "Velocity Cars26",
+    title: "oreo Cars26",
     description: "Exclusive Performance & Luxury Vehicles",
 };
 

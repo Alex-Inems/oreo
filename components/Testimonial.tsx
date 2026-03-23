@@ -18,7 +18,7 @@ const Testimonial = () => (
             {/* Testimonial Card */}
             <div className="bg-white rounded-3xl p-12 shadow-2xl border border-gray-100 relative z-10">
                 <p className="text-2xl md:text-3xl font-light italic text-gray-900 mb-8 leading-relaxed">
-                    “Velocity delivered an experience that matched the car itself. Smooth, transparent, exceptional.”
+                    “oreo delivered an experience that matched the car itself. Smooth, transparent, exceptional.”
                 </p>
                 <p className="text-sm tracking-widest uppercase text-gray-500">
                     Daniel Roberts · GT Owner

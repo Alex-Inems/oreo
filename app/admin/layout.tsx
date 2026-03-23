@@ -7,8 +7,8 @@ import AdminSidebar from "./AdminSidebar";
 const geist = Geist({ subsets: ["latin"], variable: "--font-geist" });
 
 export const metadata: Metadata = {
-  title: "Admin Panel · Velocity Cars26",
-  description: "Velocity Cars26 administration dashboard",
+  title: "Admin Panel · oreo Cars26",
+  description: "oreo Cars26 administration dashboard",
 };
 
 export default function AdminLayout({ children }: { children: React.ReactNode }) {

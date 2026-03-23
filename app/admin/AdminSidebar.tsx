@@ -20,14 +20,14 @@ import { useClerk, useUser } from "@clerk/nextjs";
 import { useRouter } from "next/navigation";
 
 const NAV = [
-  { label: "Dashboard",       href: "/admin",            icon: LayoutDashboard },
-  { label: "Pages",           href: "/admin/pages",      icon: FileText },
-  { label: "Site Content",    href: "/admin/content",    icon: LayoutDashboard },
-  { label: "Inventory",       href: "/admin/inventory",  icon: ListOrdered },
-  { label: "Media",           href: "/admin/media",      icon: Car }, // Placeholder icon if Image isn't imported
-  { label: "Reviews",         href: "/admin/reviews",    icon: Star },
-  { label: "Inquiries",       href: "/admin/inquiries",  icon: MessageSquare },
-  { label: "Settings",        href: "/admin/settings",   icon: Settings },
+  { label: "Dashboard", href: "/admin", icon: LayoutDashboard },
+  { label: "Pages", href: "/admin/pages", icon: FileText },
+  { label: "Site Content", href: "/admin/content", icon: LayoutDashboard },
+  { label: "Inventory", href: "/admin/inventory", icon: ListOrdered },
+  { label: "Media", href: "/admin/media", icon: Car }, // Placeholder icon if Image isn't imported
+  { label: "Reviews", href: "/admin/reviews", icon: Star },
+  { label: "Inquiries", href: "/admin/inquiries", icon: MessageSquare },
+  { label: "Settings", href: "/admin/settings", icon: Settings },
 ];
 
 export default function AdminSidebar() {
@@ -53,7 +53,7 @@ export default function AdminSidebar() {
             <Car className="w-5 h-5 text-white" />
           </div>
           <div>
-            <p className="text-white font-bold tracking-widest text-sm leading-tight">VELOCITY</p>
+            <p className="text-white font-bold tracking-widest text-sm leading-tight">oreo</p>
             <p className="text-[10px] text-zinc-500 tracking-[0.2em] font-medium uppercase mt-0.5">Control Panel</p>
           </div>
         </Link>
@@ -68,11 +68,10 @@ export default function AdminSidebar() {
               key={href}
               href={href}
               onClick={() => setMobileOpen(false)}
-              className={`flex items-center gap-3.5 px-4 py-3 rounded-xl text-sm font-medium transition-all group ${
-                isActive
+              className={`flex items-center gap-3.5 px-4 py-3 rounded-xl text-sm font-medium transition-all group ${isActive
                   ? "bg-red-600/15 text-red-400 border border-red-500/10 shadow-inner"
                   : "text-zinc-400 hover:text-white hover:bg-white/5 border border-transparent"
-              }`}
+                }`}
             >
               <div className={`p-1.5 rounded-lg transition-colors ${isActive ? "bg-red-600/10" : "bg-zinc-900/40"}`}>
                 <Icon className={`w-4 h-4 shrink-0 transition-transform ${isActive ? "text-red-500 scale-110" : "group-hover:text-white group-hover:scale-110"}`} />
@@ -95,7 +94,7 @@ export default function AdminSidebar() {
             <p className="text-[10px] text-zinc-600 uppercase tracking-widest font-bold">Development Mode</p>
           </div>
         </div>
-        
+
         <button
           onClick={handleLogout}
           className="w-full flex items-center justify-center gap-3 px-4 py-3 rounded-xl text-xs font-bold uppercase tracking-widest text-zinc-500 hover:text-red-400 hover:bg-red-500/5 transition-all border border-zinc-800/40 hover:border-red-500/20"
@@ -119,10 +118,10 @@ export default function AdminSidebar() {
           <div className="w-8 h-8 bg-red-600 rounded-lg flex items-center justify-center">
             <Car className="w-4 h-4 text-white" />
           </div>
-          <span className="text-white font-bold tracking-widest text-sm italic">VELOCITY CONTROL</span>
+          <span className="text-white font-bold tracking-widest text-sm italic">oreo CONTROL</span>
         </Link>
-        <button 
-          onClick={() => setMobileOpen(!mobileOpen)} 
+        <button
+          onClick={() => setMobileOpen(!mobileOpen)}
           className="w-10 h-10 flex items-center justify-center rounded-xl bg-white/5 text-zinc-400 hover:text-white active:scale-95 transition-all"
         >
           {mobileOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}

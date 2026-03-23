@@ -44,7 +44,7 @@ export default function AdminLoginPage() {
               <Car className="w-7 h-7 text-red-500" />
             </div>
             <h1 className="text-2xl font-semibold text-white tracking-tight">Admin Access</h1>
-            <p className="text-zinc-500 text-sm mt-1">Velocity Cars26 · Back Office</p>
+            <p className="text-zinc-500 text-sm mt-1">oreo Cars26 · Back Office</p>
           </div>
 
           {/* Form */}
@@ -117,7 +117,7 @@ export default function AdminLoginPage() {
             {/* Hint */}
             <p className="text-center text-xs text-zinc-600 pt-1">
               Demo credentials: <span className="text-zinc-400">admin@cars26.com</span> /{" "}
-              <span className="text-zinc-400">velocity2025</span>
+              <span className="text-zinc-400">oreo2025</span>
             </p>
           </form>
         </div>

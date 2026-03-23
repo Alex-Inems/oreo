@@ -2,9 +2,9 @@ import { Mail, MessageCircle, Facebook } from "lucide-react";
 import Link from "next/link";
 
 export default async function SupportPage({
-  searchParams,
+    searchParams,
 }: {
-  searchParams: Promise<{ [key: string]: string | string[] | undefined }>
+    searchParams: Promise<{ [key: string]: string | string[] | undefined }>
 }) {
     const params = await searchParams;
     const carId = params.car as string | undefined;
@@ -13,16 +13,16 @@ export default async function SupportPage({
         <div className="relative min-h-screen w-full flex items-center justify-center pt-24 pb-12 px-8 overflow-hidden">
             {/* Background Image with Overlay */}
             <div className="absolute inset-0 z-0">
-                <img 
-                    src="https://images.unsplash.com/photo-1549317661-bd32c8ce0db2?auto=format&fit=crop&w=2000&q=80" 
-                    alt="Support Background" 
+                <img
+                    src="https://images.unsplash.com/photo-1549317661-bd32c8ce0db2?auto=format&fit=crop&w=2000&q=80"
+                    alt="Support Background"
                     className="w-full h-full object-cover"
                 />
                 <div className="absolute inset-0 bg-black/80 backdrop-blur-sm" />
             </div>
 
             <div className="relative z-10 w-full max-w-5xl mx-auto space-y-16">
-                
+
                 {/* Header */}
                 <div className="text-center space-y-4">
                     <h1 className="text-5xl md:text-7xl font-black tracking-tighter text-white">Customer Support</h1>
@@ -33,7 +33,7 @@ export default async function SupportPage({
 
                 {/* Contact Options Grid */}
                 <div className="grid md:grid-cols-3 gap-8 text-center text-white">
-                    
+
                     {/* Email Option */}
                     <div className="bg-white/5 border border-white/10 backdrop-blur-md p-8 rounded-2xl hover:bg-white/10 hover:border-red-500/50 transition-all duration-500 group flex flex-col items-center justify-center space-y-6 transform hover:-translate-y-2">
                         <div className="p-4 bg-white/5 rounded-full group-hover:bg-red-500/20 transition-colors duration-500">
@@ -43,8 +43,8 @@ export default async function SupportPage({
                             <h2 className="text-2xl font-bold tracking-tight">Email Us</h2>
                             <p className="text-sm text-zinc-400 min-h-[40px] leading-relaxed">Detailed responses from our luxury specialist team.</p>
                         </div>
-                        <Link 
-                            href={`mailto:support@velocity.com${carId ? `?subject=Inquiry regarding Test Drive for Car ID: ${carId}` : ''}`} 
+                        <Link
+                            href={`mailto:support@oreo.com${carId ? `?subject=Inquiry regarding Test Drive for Car ID: ${carId}` : ''}`}
                             className="bg-zinc-800/80 hover:bg-red-600 text-white w-full py-4 rounded-xl uppercase tracking-widest text-sm font-bold transition-all shadow-lg"
                         >
                             Send Email
@@ -60,8 +60,8 @@ export default async function SupportPage({
                             <h2 className="text-2xl font-bold tracking-tight">WhatsApp</h2>
                             <p className="text-sm text-zinc-400 min-h-[40px] leading-relaxed">Instant messaging directly with our sales team.</p>
                         </div>
-                        <Link 
-                            href={`https://wa.me/0+2347082995663${carId ? `?text=I'm interested in scheduling a test drive for Car ID: ${carId}` : ''}`} 
+                        <Link
+                            href={`https://wa.me/0+2347082995663${carId ? `?text=I'm interested in scheduling a test drive for Car ID: ${carId}` : ''}`}
                             target="_blank" rel="noopener noreferrer"
                             className="bg-zinc-800/80 hover:bg-[#25D366] text-white w-full py-4 rounded-xl uppercase tracking-widest text-sm font-bold transition-all shadow-lg hover:shadow-[#25D366]/20"
                         >
@@ -78,8 +78,8 @@ export default async function SupportPage({
                             <h2 className="text-2xl font-bold tracking-tight">Messenger</h2>
                             <p className="text-sm text-zinc-400 min-h-[40px] leading-relaxed">Connect with us via Facebook Messenger.</p>
                         </div>
-                        <Link 
-                            href="https://m.me/velocitycars" target="_blank" rel="noopener noreferrer"
+                        <Link
+                            href="https://m.me/oreocars" target="_blank" rel="noopener noreferrer"
                             className="bg-zinc-800/80 hover:bg-[#1877F2] text-white w-full py-4 rounded-xl uppercase tracking-widest text-sm font-bold transition-all shadow-lg hover:shadow-[#1877F2]/20"
                         >
                             Message Us

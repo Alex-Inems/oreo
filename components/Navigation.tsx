@@ -13,7 +13,7 @@ const Navigation = () => {
     const [mobileOpen, setMobileOpen] = useState(false);
     const [userMenuOpen, setUserMenuOpen] = useState(false);
     const pathname = usePathname();
-    
+
     // Clerk Hooks
     const { user, isLoaded: userLoaded, isSignedIn } = useUser();
     const { signOut, openSignIn } = useClerk();
@@ -41,19 +41,17 @@ const Navigation = () => {
 
     return (
         <nav
-            className={`fixed left-1/2 -translate-x-1/2 z-[100] transition-all duration-500 will-change-transform w-[95%] lg:w-[90%] max-w-[1400px] ${
-                scrolled || mobileOpen
-                    ? "top-4 bg-black/75 backdrop-blur-2xl border border-white/10 shadow-2xl shadow-black/50" 
+            className={`fixed left-1/2 -translate-x-1/2 z-[100] transition-all duration-500 will-change-transform w-[95%] lg:w-[90%] max-w-[1400px] ${scrolled || mobileOpen
+                    ? "top-4 bg-black/75 backdrop-blur-2xl border border-white/10 shadow-2xl shadow-black/50"
                     : "top-6 bg-black/20 backdrop-blur-sm border border-white/10 hover:bg-black/40 hover:backdrop-blur-md"
-            } ${
-                mobileOpen ? "rounded-[2rem]" : "rounded-full"
-            }`}
+                } ${mobileOpen ? "rounded-[2rem]" : "rounded-full"
+                }`}
         >
             <div className={`flex items-center justify-between transition-all duration-500 ${scrolled ? "px-6 py-3" : "px-8 py-5"}`}>
                 {/* Brand */}
                 <Link href="/" className="flex items-center gap-3 text-white tracking-[0.3em] font-bold text-lg hover:text-red-500 transition-colors group">
                     <Car className="w-6 h-6 text-red-600 group-hover:scale-110 transition-transform duration-300" />
-                    <span>VELOCITY</span>
+                    <span>oreo</span>
                 </Link>
 
                 {/* Desktop nav */}
@@ -104,9 +102,9 @@ const Navigation = () => {
                                         className="flex items-center gap-3 group focus:outline-none"
                                     >
                                         <div className="relative">
-                                            <img 
-                                                src={user?.imageUrl} 
-                                                alt={user?.firstName || "User"} 
+                                            <img
+                                                src={user?.imageUrl}
+                                                alt={user?.firstName || "User"}
                                                 className="w-10 h-10 rounded-full border border-white/20 group-hover:border-red-500 transition-all shadow-md group-hover:shadow-red-500/20"
                                             />
                                             <div className="absolute inset-0 rounded-full ring-2 ring-red-500 opacity-0 group-hover:opacity-100 transition-opacity scale-110"></div>
@@ -117,9 +115,8 @@ const Navigation = () => {
                                     </button>
 
                                     {/* Dropdown */}
-                                    <div className={`absolute right-0 top-[calc(100%+12px)] w-56 bg-black/90 backdrop-blur-3xl border border-white/10 rounded-2xl shadow-2xl overflow-hidden transition-all duration-300 origin-top-right ${
-                                        userMenuOpen ? "opacity-100 scale-100 visible" : "opacity-0 scale-95 invisible"
-                                    }`}>
+                                    <div className={`absolute right-0 top-[calc(100%+12px)] w-56 bg-black/90 backdrop-blur-3xl border border-white/10 rounded-2xl shadow-2xl overflow-hidden transition-all duration-300 origin-top-right ${userMenuOpen ? "opacity-100 scale-100 visible" : "opacity-0 scale-95 invisible"
+                                        }`}>
                                         <div className="px-5 py-4 border-b border-white/10 bg-gradient-to-b from-white/5 to-transparent">
                                             <p className="text-[10px] text-zinc-500 uppercase tracking-widest mb-1 font-bold">Signed in as</p>
                                             <p className="text-sm font-semibold text-white truncate drop-shadow-sm">{user?.primaryEmailAddress?.emailAddress}</p>

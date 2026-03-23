@@ -11,11 +11,11 @@ export default function SignInPage() {
 
       <Link href="/" className="flex items-center gap-3 text-white tracking-[0.4em] text-xl font-bold mb-12 relative z-10 hover:scale-105 transition-transform group">
         <Car className="w-7 h-7 text-red-600 group-hover:rotate-[-10deg] transition-transform" />
-        VELOCITY
+        oreo
       </Link>
 
       <div className="relative z-10 w-full flex justify-center">
-        <SignIn 
+        <SignIn
           appearance={{
             elements: {
               rootBox: "mx-auto",
@@ -40,7 +40,7 @@ export default function SignInPage() {
       </div>
 
       <p className="mt-12 text-[10px] text-zinc-600 uppercase tracking-[0.3em] font-black relative z-10">
-        Engineered for performance · Secured by Velocity
+        Engineered for performance · Secured by oreo
       </p>
     </div>
   );
