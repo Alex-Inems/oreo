@@ -17,6 +17,7 @@ import {
   Lock,
   ArrowRight
 } from "lucide-react";
+import { FallbackImage } from "@/components/UI/FallbackImage";
 
 // --- Components ---
 
@@ -65,11 +66,12 @@ export default function FinancingPage() {
       {/* 1. Hero Section - Cinematic Entry */}
       <section className="relative min-h-[90vh] flex items-center justify-center pt-20 overflow-hidden">
         <div className="absolute inset-0 z-0">
-          <motion.img 
+          <FallbackImage 
             initial={{ scale: 1.1, opacity: 0 }}
             animate={{ scale: 1, opacity: 0.5 }}
             transition={{ duration: 2.5, ease: "easeOut" }}
             src="https://images.unsplash.com/photo-1554224155-1696413565d3?auto=format&fit=crop&w=2000&q=80" 
+            fallbackSrc="/public/images/car1.jpg"
             alt="Capital Structure" 
             className="w-full h-full object-cover"
           />
@@ -333,8 +335,9 @@ export default function FinancingPage() {
       {/* 5. Concierge CTA */}
       <section className="py-48 relative overflow-hidden">
         <div className="absolute inset-0 z-0">
-          <img 
-            src="https://images.unsplash.com/photo-1562141982-10839e94eb13?auto=format&fit=crop&w=2000&q=80" 
+          <FallbackImage 
+            src="https://images.unsplash.com/photo-1549317661-bd32c8ce0db2?auto=format&fit=crop&w=2000&q=80" 
+            fallbackSrc="/public/images/lambo.jpg"
             className="w-full h-full object-cover opacity-20 grayscale" 
             alt="Private Office" 
           />

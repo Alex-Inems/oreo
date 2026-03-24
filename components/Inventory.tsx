@@ -4,6 +4,7 @@ import Link from "next/link";
 import { ArrowRight, Loader2 } from "lucide-react";
 import { useState, useEffect } from "react";
 import { subscribeInventory, Car as InventoryCar } from "@/lib/inventory";
+import { FallbackImage } from "@/components/UI/FallbackImage";
 
 const Inventory = () => {
     const [cars, setCars] = useState<InventoryCar[]>([]);
@@ -41,8 +42,9 @@ const Inventory = () => {
                         return (
                             <div key={car.id!} className="group border border-gray-100 hover:shadow-2xl transition">
                                 <Link href={`/inventory/${car.id}`} className="block aspect-4/3 overflow-hidden relative">
-                                    <img
+                                    <FallbackImage
                                         src={car.image}
+                                        fallbackSrc="/public/images/car1.jpg"
                                         className="w-full h-full object-cover group-hover:scale-110 transition duration-1200"
                                         alt={car.model}
                                     />

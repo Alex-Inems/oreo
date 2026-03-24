@@ -4,6 +4,7 @@ import { useState, useEffect } from "react";
 import Link from "next/link";
 import { subscribeInventory, Car as InventoryCar } from "@/lib/inventory";
 import { Loader2 } from "lucide-react";
+import { FallbackImage } from "@/components/UI/FallbackImage";
 
 export default function InventoryClient() {
     const [activeFilter, setActiveFilter] = useState("All");
@@ -24,6 +25,9 @@ export default function InventoryClient() {
         ? cars 
         : cars.filter((car) => car.bodyType === activeFilter);
 
+    const speedSpec = (car: InventoryCar) => car.specs?.find((s) => s.label.toLowerCase().includes("0-60"))?.value || "N/A";
+    const rangeSpec = (car: InventoryCar) => car.specs?.find((s) => s.label.toLowerCase().includes("range"))?.value;
+
     if (loading) {
         return (
             <div className="bg-black text-white min-h-screen flex flex-col items-center justify-center gap-4">
@@ -37,7 +41,7 @@ export default function InventoryClient() {
         <div className="bg-black text-white min-h-screen">
             {/* 1. Hero */}
             <section className="pt-32 pb-24 px-8 text-center bg-zinc-900 border-b border-zinc-800">
-                <h1 className="text-6xl font-bold mb-4 tracking-tighter">Current Inventory</h1>
+                <h1 className="text-6xl font-bold mb-4 tracking-tighter uppercase italic">Current Inventory</h1>
                 <p className="text-xl text-zinc-400 w-full max-w-[90vw] min-[2000px]:max-w-[1000px] min-[3000px]:max-w-[1200px] mx-auto uppercase tracking-widest">Performance & Luxury Vehicles</p>
             </section>
 
@@ -47,47 +51,55 @@ export default function InventoryClient() {
                     {FILTERS.map((filter, i) => (
                         <button 
                             key={i} 
-                            onClick={() => setActiveFilter(filter)}
-                            className={`text-sm uppercase tracking-widest px-4 py-2 border border-zinc-800 hover:border-red-600 transition cursor-pointer ${activeFilter === filter ? 'bg-red-600 border-red-600' : ''}`}
+                            onClick={() => setActiveFilter(filter as string)}
+                            className={`text-[10px] font-black uppercase tracking-widest px-6 py-2 border border-zinc-800 hover:border-red-600 transition cursor-pointer ${activeFilter === filter ? 'bg-red-600 border-red-600 text-white' : 'text-zinc-500 hover:text-white'}`}
                         >
-                            {filter}
+                            {filter as string}
                         </button>
                     ))}
                 </div>
             </section>
 
             {/* 3. Car Grid */}
-            <section className="py-12 px-8 w-full max-w-[95vw] min-[2000px]:max-w-[2400px] min-[3000px]:max-w-[3200px] mx-auto min-h-[500px]">
+            <section className="py-24 px-8 w-full max-w-[95vw] min-[2000px]:max-w-[2400px] min-[3000px]:max-w-[3200px] mx-auto min-h-[500px]">
                 {filteredCars.length === 0 ? (
                     <div className="text-center text-zinc-500 py-20 uppercase tracking-widest">No vehicles found in this category.</div>
                 ) : (
                     <div className="grid md:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4 min-[2000px]:grid-cols-5 min-[3000px]:grid-cols-6 gap-8 text-left">
                         {filteredCars.map((car) => {
-                            const speedSpec = car.specs?.find((s) => s.label.toLowerCase().includes("0-60"))?.value || "N/A";
-                            const rangeSpec = car.specs?.find((s) => s.label.toLowerCase().includes("range"))?.value;
+                            const speed = speedSpec(car);
+                            const range = rangeSpec(car);
                             return (
-                            <div key={car.id!} className="group bg-zinc-900 border border-zinc-800 hover:border-red-600 transition duration-500">
-                                <Link href={`/inventory/${car.id}`} className="h-64 relative overflow-hidden group block">
-                                    <img src={car.image} alt={car.model} className="w-full h-full object-cover group-hover:scale-105 transition duration-500" />
-                                    <div className="absolute inset-0 bg-zinc-700/80 translate-y-full group-hover:translate-y-0 transition duration-500 flex items-center justify-center">
-                                        <span className="text-sm font-bold uppercase tracking-widest cursor-pointer">View Details</span>
+                            <div key={car.id!} className="group bg-zinc-900/50 border border-zinc-900 hover:border-red-600/50 transition-all duration-500 rounded-3xl overflow-hidden shadow-2xl">
+                                <Link href={`/inventory/${car.id}`} className="h-72 relative overflow-hidden group block">
+                                    <FallbackImage 
+                                        src={car.image} 
+                                        fallbackSrc="/public/images/car3.jpg"
+                                        alt={car.model} 
+                                        className="w-full h-full object-cover group-hover:scale-110 transition duration-1000" 
+                                    />
+                                    <div className="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition-opacity duration-500 flex items-center justify-center">
+                                        <span className="text-xs font-black uppercase tracking-[0.3em] bg-white text-black px-6 py-3 rounded-full transform translate-y-4 group-hover:translate-y-0 transition-transform duration-500">View Details</span>
                                     </div>
                                     {car.condition === "New" && (
-                                       <span className="absolute top-4 left-4 bg-red-600 text-white px-3 py-1 text-[10px] font-black uppercase tracking-widest">Just Inducted</span>
+                                       <span className="absolute top-6 left-6 bg-red-600 text-white px-4 py-1.5 text-[10px] font-black uppercase tracking-widest rounded-full shadow-lg">New Arrival</span>
                                     )}
                                 </Link>
-                                <div className="p-6">
-                                    <div className="flex justify-between items-start mb-4">
+                                <div className="p-8">
+                                    <div className="flex justify-between items-start mb-6">
                                         <div>
-                                            <h3 className="text-xl font-bold">{car.make} {car.model}</h3>
-                                            <p className="text-xs text-zinc-500 uppercase tracking-widest">{car.year} • {car.bodyType}</p>
+                                            <h3 className="text-2xl font-black italic uppercase tracking-tighter mb-1">{car.make} {car.model}</h3>
+                                            <p className="text-[10px] text-zinc-500 font-bold uppercase tracking-[0.2em]">{car.year} • {car.bodyType}</p>
                                         </div>
-                                        <span className="text-red-500 font-bold">${car.price.toLocaleString()}</span>
+                                        <div className="text-right">
+                                            <span className="text-red-500 font-black text-xl tracking-tighter">${car.price.toLocaleString()}</span>
+                                            <p className="text-[8px] text-zinc-700 font-bold uppercase tracking-widest">MSRP</p>
+                                        </div>
                                     </div>
-                                    <div className="flex gap-4 text-xs text-zinc-400 border-t border-zinc-800 pt-4 font-mono">
-                                        <span>0-60: {speedSpec}</span>
-                                        {rangeSpec && <span>Range: {rangeSpec}</span>}
-                                        {!rangeSpec && <span>{car.mileage.toLocaleString()} mi</span>}
+                                    <div className="flex gap-4 text-[10px] text-zinc-400 border-t border-white/5 pt-6 font-bold uppercase tracking-widest">
+                                        <span className="flex items-center gap-2">0-60: <span className="text-white">{speed}</span></span>
+                                        {range && <span className="flex items-center gap-2">Range: <span className="text-white">{range}</span></span>}
+                                        {!range && <span className="flex items-center gap-2">MILEAGE: <span className="text-white">{car.mileage.toLocaleString()} MI</span></span>}
                                     </div>
                                 </div>
                             </div>
@@ -98,21 +110,25 @@ export default function InventoryClient() {
             </section>
 
             {/* 4. Promo Banner */}
-            <section className="py-24 bg-red-900 text-center">
-                <h2 className="text-5xl font-black italic uppercase tracking-tighter mb-4">Trade-In Bonus</h2>
-                <p className="text-xl font-bold mb-8">Get an extra $5,000 for your trade-in this month.</p>
-                <button className="bg-black text-white px-10 py-4 uppercase tracking-widest font-bold hover:bg-white hover:text-black transition cursor-pointer">Value My Trade</button>
+            <section className="py-32 bg-red-600 text-center relative overflow-hidden">
+                <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/carbon-fibre.png')] opacity-20" />
+                <div className="relative z-10 w-full max-w-4xl mx-auto px-6">
+                    <h2 className="text-5xl md:text-7xl font-black italic uppercase tracking-tighter mb-6">Trade-In Protocol</h2>
+                    <p className="text-xl md:text-2xl font-bold mb-10 text-red-100">Maximize your acquisition power. Get an extra $5,000 for your trade-in this month.</p>
+                    <button className="bg-white text-black px-12 py-5 uppercase tracking-[0.3em] font-black text-xs hover:bg-black hover:text-white transition-all transform hover:scale-105 shadow-2xl active:scale-95">Initiate Valuation</button>
+                </div>
             </section>
 
             {/* 5. Recently Sold */}
-            <section className="py-24 px-8 bg-zinc-900 border-t border-zinc-800">
+            <section className="py-32 px-8 bg-black border-t border-white/5">
                 <div className="w-full max-w-[95vw] min-[2000px]:max-w-[2400px] min-[3000px]:max-w-[3200px] mx-auto">
-                    <h2 className="text-2xl font-bold mb-8 text-zinc-500 uppercase tracking-widest">Recently Sold</h2>
-                    <div className="flex gap-4 overflow-x-auto pb-4 opacity-50 grayscale hover:grayscale-0 transition duration-700">
-                        {["car1.jpg", "car2.jpg", "car3.jpg", "car4.jpg"].map((img, i) => (
-                            <div key={i} className="min-w-[300px] h-48 bg-zinc-800 border border-zinc-700 flex items-center justify-center relative overflow-hidden">
-                                <img src={`/public/images/${img}`} alt="Sold Car" className="absolute inset-0 w-full h-full object-cover opacity-50" />
-                                <span className="text-red-600 font-black text-2xl -rotate-12 border-4 border-red-600 px-4 py-2 z-10">SOLD</span>
+                    <h2 className="text-xl font-black mb-12 text-zinc-700 uppercase tracking-[0.4em]">Historical Registry / Recently Sold</h2>
+                    <div className="flex gap-8 overflow-x-auto pb-8 snap-x no-scrollbar">
+                        {["car1.jpg", "car2.jpg", "car3.jpg", "car4.jpg", "aventador.jpg", "lambo.jpg"].map((img, i) => (
+                            <div key={i} className="min-w-[400px] h-64 bg-zinc-900 border border-white/5 rounded-[2rem] flex items-center justify-center relative overflow-hidden snap-center group grayscale hover:grayscale-0 transition-all duration-700">
+                                <FallbackImage src={`/public/images/${img}`} fallbackSrc="/public/images/car1.jpg" alt="Sold Car" className="absolute inset-0 w-full h-full object-cover opacity-50 group-hover:opacity-100 transition-all duration-700" />
+                                <div className="absolute inset-0 bg-black/40 group-hover:bg-red-600/20 transition-all duration-700" />
+                                <span className="relative z-10 text-red-600 font-black text-3xl tracking-[0.2em] -rotate-12 border-4 border-red-600 px-8 py-3 transform group-hover:scale-110 shadow-2xl transition-transform">DECOMMISSIONED</span>
                             </div>
                         ))}
                     </div>

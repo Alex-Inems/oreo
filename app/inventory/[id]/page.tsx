@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { ArrowLeft } from "lucide-react";
+import { FallbackImage } from "@/components/UI/FallbackImage";
 
 const CARS = [
     { id: 1, name: "Model X Plaid", year: 2025, category: "Electric", price: "$120,000", image: "https://images.unsplash.com/photo-1560958089-b8a1929cea89?auto=format&fit=crop&w=800&q=80", range: "300mi", speed: "1.9s", power: "1,020 hp", description: "The Model X Plaid is the highest performing SUV ever built. All Model X powertrains, with updated battery architecture, can deliver instant torque at any speed." },
@@ -38,7 +39,7 @@ export default async function CarDetailsPage({
             <div className="grid md:grid-cols-2 gap-16 items-start">
                 {/* Image Section */}
                 <div className="rounded-lg overflow-hidden border border-zinc-800">
-                    <img src={car.image} alt={car.name} className="w-full h-auto object-cover" />
+                    <FallbackImage src={car.image} fallbackSrc="/public/images/car1.jpg" alt={car.name} className="w-full h-auto object-cover" />
                 </div>
 
                 {/* Details Section */}

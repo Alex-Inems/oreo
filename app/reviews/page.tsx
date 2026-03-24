@@ -19,6 +19,7 @@ import {
   Loader2
 } from "lucide-react";
 import { subscribeReviews, addReview, Review as FirebaseReview } from "@/lib/reviews";
+import { FallbackImage } from "@/components/UI/FallbackImage";
 
 // --- Static Data Fallbacks & Content ---
 
@@ -74,8 +75,9 @@ function ReviewCard({ review }: { review: FirebaseReview }) {
 
       <div className="flex items-center gap-4 border-t border-white/5 pt-8">
         <div className="w-12 h-12 rounded-2xl bg-zinc-800 border border-white/10 overflow-hidden shadow-lg transform -rotate-6 group-hover:rotate-0 transition-transform duration-500 shrink-0">
-          <img 
+          <FallbackImage 
             src={review.avatar || `https://images.unsplash.com/photo-1544005313-94ddf0286df2?auto=format&fit=crop&w=100&q=80`} 
+            fallbackSrc="/public/images/car1.jpg"
             alt={review.name} 
             className="w-full h-full object-cover"
           />
@@ -215,11 +217,12 @@ export default function ReviewsPage() {
       {/* 1. Cinematic Hero */}
       <section className="relative min-h-[70vh] flex items-center justify-center pt-20 overflow-hidden">
         <div className="absolute inset-0 z-0">
-          <motion.img 
+          <FallbackImage 
             initial={{ scale: 1.1, opacity: 0 }}
             animate={{ scale: 1, opacity: 0.4 }}
             transition={{ duration: 2.5, ease: "easeOut" }}
             src="https://images.unsplash.com/photo-1549317661-bd32c8ce0db2?auto=format&fit=crop&w=2000&q=80" 
+            fallbackSrc="/public/images/car1.jpg"
             alt="Client Community" 
             className="w-full h-full object-cover"
           />
@@ -314,8 +317,9 @@ export default function ReviewsPage() {
                 transition={{ delay: i * 0.1 }}
                 className="group relative aspect-[16/10] bg-zinc-900 rounded-[2rem] overflow-hidden cursor-pointer"
               >
-                <img 
+                <FallbackImage 
                   src={`https://images.unsplash.com/photo-${video.id}?auto=format&fit=crop&w=800&q=80`} 
+                  fallbackSrc="/public/images/car4.jpg"
                   alt={video.title} 
                   className="w-full h-full object-cover transition duration-1000 group-hover:scale-110 group-hover:blur-sm"
                 />
@@ -379,8 +383,9 @@ export default function ReviewsPage() {
               transition={{ delay: i * 0.05 }}
               className="aspect-square bg-zinc-900 rounded-[1.5rem] overflow-hidden group relative"
             >
-              <img 
+              <FallbackImage 
                 src={`https://images.unsplash.com/photo-${id}?auto=format&fit=crop&w=600&q=80`} 
+                fallbackSrc="/public/images/lambo.jpg"
                 alt={`Network Post ${i}`} 
                 className="w-full h-full object-cover transition-all duration-1000 group-hover:scale-125 group-hover:rotate-6 grayscale group-hover:grayscale-0"
               />

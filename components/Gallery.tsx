@@ -1,5 +1,7 @@
 "use client";
 
+import { FallbackImage } from "./UI/FallbackImage";
+
 const Gallery = () => {
     const images = [
         "https://images.unsplash.com/photo-1617814076367-b759c7d7e738?auto=format&fit=crop&w=1200&q=80",
@@ -17,8 +19,9 @@ const Gallery = () => {
                 <div className="grid md:grid-cols-3 lg:grid-cols-4 min-[2000px]:grid-cols-5 min-[3000px]:grid-cols-6 gap-8">
                     {images.map((img, i) => (
                         <div key={i} className="overflow-hidden rounded-lg">
-                            <img
+                            <FallbackImage
                                 src={img}
+                                fallbackSrc="/public/images/car2.jpg"
                                 className="w-full h-full object-cover hover:scale-110 transition duration-1000"
                                 alt="car gallery"
                             />
