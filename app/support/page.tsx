@@ -8,6 +8,19 @@ export default async function SupportPage({
 }) {
     const params = await searchParams;
     const carId = params.car as string | undefined;
+    const inquiry = params.inquiry as string | undefined;
+
+    const getHeadline = () => {
+        if (inquiry === "financing") return "Financing Solutions";
+        if (carId) return "Test Drive Request";
+        return "Customer Support";
+    };
+
+    const getSubline = () => {
+        if (inquiry === "financing") return "Our finance directors are ready to structure your next acquisition";
+        if (carId) return `We're here to help you with your test drive (Car ID: ${carId})`;
+        return "Dedicated support for the world's most exclusive fleet";
+    };
 
     return (
         <div className="relative min-h-screen w-full flex items-center justify-center pt-24 pb-12 px-8 overflow-hidden">
@@ -25,9 +38,9 @@ export default async function SupportPage({
 
                 {/* Header */}
                 <div className="text-center space-y-4">
-                    <h1 className="text-5xl md:text-7xl font-black tracking-tighter text-white">Customer Support</h1>
-                    <p className="text-xl text-zinc-300 uppercase tracking-widest">
-                        We're here to help you {carId ? "with your test drive" : "with your inquiry"}
+                    <h1 className="text-5xl md:text-7xl font-black tracking-tighter text-white uppercase italic">{getHeadline()}</h1>
+                    <p className="text-xl text-zinc-300 uppercase tracking-widest max-w-2xl mx-auto leading-relaxed">
+                        {getSubline()}
                     </p>
                 </div>
 
