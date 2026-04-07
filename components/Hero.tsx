@@ -17,14 +17,15 @@ const Hero = () => {
                 backgroundPosition: "center",
             }}
         >
-            <div className="absolute inset-0 bg-linear-to-t from-black via-black/60 to-transparent" />
+            <div className="absolute inset-0 bg-gradient-to-t from-black via-black/40 to-transparent z-0" />
+            <div className="absolute inset-x-0 top-0 h-40 bg-gradient-to-b from-black/60 to-transparent z-0 pointer-events-none" />
 
-            <div className="relative w-full max-w-[95vw] min-[2000px]:max-w-[2400px] min-[3000px]:max-w-[3200px] mx-auto px-8 pb-32 text-white">
+            <div className="relative w-full max-w-[95vw] min-[2000px]:max-w-[2400px] min-[3000px]:max-w-[3200px] mx-auto px-6 md:px-8 pb-16 md:pb-32 text-white">
                 <motion.span 
                     initial={{ opacity: 0, x: -20 }}
                     animate={{ opacity: 1, x: 0 }}
                     transition={{ duration: 0.8 }}
-                    className="inline-block border border-red-600 px-6 py-2 text-xs tracking-[0.3em] uppercase"
+                    className="inline-block border border-red-600 px-4 py-1.5 md:px-6 md:py-2 text-[10px] md:text-xs tracking-[0.3em] uppercase"
                 >
                     {content.hero.subtitle}
                 </motion.span>
@@ -33,7 +34,7 @@ const Hero = () => {
                     initial={{ opacity: 0, y: 30 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ duration: 0.8, delay: 0.2 }}
-                    className="text-7xl md:text-8xl font-light mt-6 mb-8 uppercase"
+                    className="text-4xl md:text-6xl lg:text-8xl xl:text-9xl font-light mt-6 mb-8 uppercase leading-[1.1] md:leading-[1] tracking-tighter"
                 >
                     {content.hero.title}
                 </motion.h1>
@@ -42,7 +43,7 @@ const Hero = () => {
                     initial={{ opacity: 0, y: 30 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ duration: 0.8, delay: 0.3 }}
-                    className="text-lg md:text-xl font-bold text-red-500 uppercase tracking-[0.4em] mb-4"
+                    className="text-sm md:text-xl font-bold text-red-500 uppercase tracking-[0.3em] md:tracking-[0.4em] mb-4"
                 >
                     {content.mission.heading}
                 </motion.h3>
@@ -51,7 +52,7 @@ const Hero = () => {
                     initial={{ opacity: 0, y: 30 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ duration: 0.8, delay: 0.4 }}
-                    className="text-xl text-white/80 w-full max-w-[90vw] min-[2000px]:max-w-[1000px] min-[3000px]:max-w-[1200px] mb-12"
+                    className="text-base md:text-xl text-white/80 w-full max-w-[90vw] min-[2000px]:max-w-[1000px] min-[3000px]:max-w-[1200px] mb-12 leading-relaxed"
                 >
                     {content.mission.text}
                 </motion.p>

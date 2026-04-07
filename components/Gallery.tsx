@@ -13,10 +13,10 @@ const Gallery = () => {
     ];
 
     return (
-        <section className="py-32 bg-white text-black">
-            <div className="w-full max-w-[95vw] min-[2000px]:max-w-[2400px] min-[3000px]:max-w-[3200px] mx-auto px-8">
-                <h2 className="text-5xl font-light mb-12 text-center text-gray-900">Gallery</h2>
-                <div className="grid md:grid-cols-3 lg:grid-cols-4 min-[2000px]:grid-cols-5 min-[3000px]:grid-cols-6 gap-8">
+        <section className="py-20 md:py-32 bg-white text-black">
+            <div className="w-full max-w-[95vw] min-[2000px]:max-w-[2400px] min-[3000px]:max-w-[3200px] mx-auto px-6 md:px-8">
+                <h2 className="text-3xl md:text-5xl font-light mb-8 md:mb-12 text-center text-gray-900">Gallery</h2>
+                <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 min-[2000px]:grid-cols-5 min-[3000px]:grid-cols-6 gap-4 md:gap-8">
                     {images.map((img, i) => (
                         <div key={i} className="overflow-hidden rounded-lg">
                             <FallbackImage

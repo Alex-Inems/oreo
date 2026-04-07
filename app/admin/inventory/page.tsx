@@ -15,15 +15,15 @@ import {
 const formatPrice = (price: number) =>
   new Intl.NumberFormat("en-US", { style: "currency", currency: "USD", maximumFractionDigits: 0 }).format(price);
 
-function Badge({ condition }: { condition: string }) {
+function Badge({ status }: { status: string }) {
   const map: Record<string, string> = {
-    New: "bg-emerald-500/15 text-emerald-400 border-emerald-500/20",
-    Used: "bg-zinc-500/15  text-zinc-400  border-zinc-500/20",
-    Certified: "bg-blue-500/15  text-blue-400  border-blue-500/20",
+    Available: "bg-emerald-500/15 text-emerald-400 border-emerald-500/20",
+    Reserved: "bg-amber-500/15  text-amber-400  border-amber-500/20",
+    Sold:      "bg-red-500/15    text-red-400    border-red-500/20",
   };
   return (
-    <span className={`text-[10px] font-bold uppercase tracking-widest px-2.5 py-1 rounded-full border ${map[condition] ?? ""}`}>
-      {condition}
+    <span className={`text-[10px] font-bold uppercase tracking-widest px-2.5 py-1 rounded-full border ${map[status] ?? "bg-zinc-500/15 text-zinc-400 border-zinc-500/20"}`}>
+      {status}
     </span>
   );
 }
@@ -44,7 +44,7 @@ function CarModal({
       make: "", model: "", year: 2024, price: 0,
       condition: "New", bodyType: "Coupe", engine: "V8",
       mileage: 0, description: "", specs: [], featured: false,
-      image: "", images: []
+      image: "", images: [], status: "Available"
     }
   );
   const [uploading, setUploading] = useState(false);
@@ -190,10 +190,18 @@ function CarModal({
                 </div>
                 <div className="space-y-1.5">
                   <label className="text-[10px] text-zinc-600 uppercase font-black tracking-widest ml-1">Condition</label>
-                  <select value={form.condition} onChange={e => set("condition", e.target.value)} className="w-full bg-[#151515] border border-zinc-800 rounded-xl px-4 py-3 text-white text-xs outline-none">
+                  <select value={form.condition} onChange={e => set("condition", e.target.value)} className="w-full bg-[#151515] border border-zinc-800 rounded-xl px-4 py-3 text-white text-xs outline-none focus:border-red-600">
                     <option value="New">New</option>
                     <option value="Used">Used</option>
                     <option value="Certified">Certified</option>
+                  </select>
+                </div>
+                <div className="space-y-1.5">
+                  <label className="text-[10px] text-zinc-600 uppercase font-black tracking-widest ml-1">Status</label>
+                  <select value={form.status} onChange={e => set("status", e.target.value)} className="w-full bg-[#151515] border border-zinc-800 rounded-xl px-4 py-3 text-white text-xs outline-none focus:border-red-600">
+                    <option value="Available">Available</option>
+                    <option value="Reserved">Reserved</option>
+                    <option value="Sold">Sold</option>
                   </select>
                 </div>
               </div>
@@ -349,8 +357,9 @@ export default function AdminInventoryPage() {
               <div className="aspect-[16/10] overflow-hidden relative">
                 <img src={car.image} alt="" className="w-full h-full object-cover grayscale-[0.2] group-hover:grayscale-0 transition-all duration-700 group-hover:scale-105" />
                 <div className="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent opacity-60" />
-                <div className="absolute top-6 right-6">
-                  <Badge condition={car.condition} />
+                <div className="absolute top-6 right-6 flex flex-col gap-2 items-end">
+                  <Badge status={car.status || "Available"} />
+                  <span className="bg-black/50 backdrop-blur-md text-white px-2.5 py-1 text-[8px] font-black uppercase tracking-widest rounded-full border border-white/10">{car.condition}</span>
                 </div>
               </div>
 

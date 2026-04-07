@@ -12,8 +12,8 @@ const Stats = () => {
     ];
 
     return (
-        <section className="py-32 bg-black text-white overflow-hidden">
-            <div className="w-full max-w-[95vw] min-[2000px]:max-w-[2400px] min-[3000px]:max-w-[3200px] mx-auto px-8 grid md:grid-cols-4 min-[2000px]:gap-24 min-[3000px]:gap-32 gap-16 text-center">
+        <section className="py-20 md:py-32 bg-black text-white overflow-hidden">
+            <div className="w-full max-w-[95vw] min-[2000px]:max-w-[2400px] min-[3000px]:max-w-[3200px] mx-auto px-8 grid grid-cols-2 lg:grid-cols-4 min-[2000px]:gap-24 min-[3000px]:gap-32 gap-8 md:gap-16 text-center">
                 {stats.map((s, i) => (
                     <motion.div
                         key={i}

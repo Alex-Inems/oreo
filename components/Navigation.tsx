@@ -41,16 +41,16 @@ const Navigation = () => {
 
     return (
         <nav
-            className={`fixed left-1/2 -translate-x-1/2 z-[100] transition-all duration-500 will-change-transform w-[95%] lg:w-[90%] max-w-[1400px] ${scrolled || mobileOpen
+            className={`fixed left-1/2 -translate-x-1/2 z-[999] transition-all duration-500 will-change-transform w-[95%] lg:w-[90%] max-w-[1400px] ${scrolled || mobileOpen
                     ? "top-4 bg-black/75 backdrop-blur-2xl border border-white/10 shadow-2xl shadow-black/50"
-                    : "top-6 bg-black/20 backdrop-blur-sm border border-white/10 hover:bg-black/40 hover:backdrop-blur-md"
+                    : "top-6 bg-black/40 backdrop-blur-md border border-white/10 hover:bg-black/50 hover:backdrop-blur-lg"
                 } ${mobileOpen ? "rounded-[2rem]" : "rounded-full"
                 }`}
         >
             <div className={`flex items-center justify-between transition-all duration-500 ${scrolled ? "px-6 py-3" : "px-8 py-5"}`}>
                 {/* Brand */}
-                <Link href="/" className="flex items-center gap-3 text-white tracking-[0.3em] font-bold text-lg hover:text-red-500 transition-colors group">
-                    <Car className="w-6 h-6 text-red-600 group-hover:scale-110 transition-transform duration-300" />
+                <Link href="/" className="flex items-center gap-2 md:gap-3 text-white tracking-[0.2em] md:tracking-[0.3em] font-bold text-base md:text-lg hover:text-red-500 transition-colors group">
+                    <Car className="w-5 h-5 md:w-6 md:h-6 text-red-600 group-hover:scale-110 transition-transform duration-300" />
                     <span>oreo</span>
                 </Link>
 
@@ -153,7 +153,7 @@ const Navigation = () => {
                         <Link
                             key={item}
                             href={`/${item.toLowerCase()}`}
-                            className="block text-zinc-400 hover:text-white transition-colors uppercase tracking-[0.25em] text-xs font-bold py-2"
+                            className="block text-zinc-400 hover:text-white transition-colors uppercase tracking-[0.25em] text-xs font-bold py-3 md:py-2"
                             onClick={() => setMobileOpen(false)}
                         >
                             {item}

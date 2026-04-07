@@ -1,6 +1,6 @@
 "use client";
 
-import { motion, AnimatePresence } from "framer-motion";
+import { motion } from "framer-motion";
 import Link from "next/link";
 import { useState, useEffect } from "react";
 import { 
@@ -9,7 +9,7 @@ import {
   Zap, 
   Clock, 
   ChevronRight, 
-  DollarSign, 
+
   Percent, 
   TrendingUp,
   CreditCard,
@@ -64,7 +64,7 @@ export default function FinancingPage() {
     <div className="bg-[#050505] text-white min-h-screen selection:bg-red-600/30 overflow-x-hidden">
       
       {/* 1. Hero Section - Cinematic Entry */}
-      <section className="relative min-h-[90vh] flex items-center justify-center pt-20 overflow-hidden">
+      <section className="relative min-h-[90vh] flex items-center justify-center pt-32 md:pt-40 overflow-hidden">
         <div className="absolute inset-0 z-0">
           <FallbackImage 
             initial={{ scale: 1.1, opacity: 0 }}
@@ -79,20 +79,20 @@ export default function FinancingPage() {
           <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(220,38,38,0.05)_0%,transparent_70%)]" />
         </div>
 
-        <div className="relative z-10 text-center container px-6 mt-20">
+        <div className="relative z-10 text-center container px-6 mt-12 md:mt-20">
           <motion.div
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 1, ease: [0.16, 1, 0.3, 1] }}
           >
-            <span className="inline-block text-red-500 font-black tracking-[0.5em] uppercase text-xs mb-6 border-b-2 border-red-600 pb-2">
+            <span className="inline-block text-red-500 font-black tracking-[0.5em] uppercase text-[10px] md:text-xs mb-6 border-b-2 border-red-600 pb-2">
               OREO Capital Solutions
             </span>
-            <h1 className="text-6xl md:text-9xl font-black uppercase italic tracking-tighter leading-[0.9] mb-8">
+            <h1 className="text-5xl md:text-7xl lg:text-8xl xl:text-9xl font-black uppercase italic tracking-tighter leading-[1] md:leading-[0.9] mb-8">
               Wealth <br /> 
-              <span className="text-transparent bg-clip-text bg-gradient-to-r from-white via-zinc-400 to-zinc-600">Architected</span>
+              <span className="text-transparent bg-clip-text bg-gradient-to-r from-white via-zinc-400 to-zinc-600 italic">Architected</span>
             </h1>
-            <p className="text-lg md:text-2xl text-zinc-400 font-medium max-w-2xl mx-auto italic leading-relaxed">
+            <p className="text-base md:text-2xl text-zinc-400 font-medium max-w-2xl mx-auto italic leading-relaxed px-4">
               Bespoke financial engineering for the world&apos;s most sought-after assets.
             </p>
           </motion.div>
@@ -101,11 +101,11 @@ export default function FinancingPage() {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ delay: 1, duration: 1 }}
-            className="mt-16 flex flex-wrap justify-center gap-12 text-[10px] font-black uppercase tracking-[0.3em] text-zinc-500"
+            className="mt-12 md:mt-16 flex flex-wrap justify-center gap-6 md:gap-12 text-[8px] md:text-[10px] font-black uppercase tracking-[0.2em] md:tracking-[0.3em] text-zinc-500"
           >
-            <div className="flex items-center gap-3"><ShieldCheck className="w-4 h-4 text-red-600" /> SECURE UNDERWRITING</div>
-            <div className="flex items-center gap-3"><Zap className="w-4 h-4 text-red-600" /> INSTANT PRE-APPROVAL</div>
-            <div className="flex items-center gap-3"><Clock className="w-4 h-4 text-red-600" /> TAILORED STRUCTURES</div>
+            <div className="flex items-center gap-2 md:gap-3"><ShieldCheck className="w-4 h-4 text-red-600" /> SECURE UNDERWRITING</div>
+            <div className="flex items-center gap-2 md:gap-3"><Zap className="w-4 h-4 text-red-600" /> INSTANT PRE-APPROVAL</div>
+            <div className="flex items-center gap-2 md:gap-3"><Clock className="w-4 h-4 text-red-600" /> TAILORED STRUCTURES</div>
           </motion.div>
         </div>
 
@@ -117,13 +117,13 @@ export default function FinancingPage() {
       </section>
 
       {/* 2. Strategy Grid - Card Revamp */}
-      <section className="py-32 px-6 container mx-auto">
+      <section className="py-20 md:py-32 px-6 container mx-auto">
         <motion.div 
           variants={stagger}
           initial="initial"
           whileInView="animate"
           viewport={{ once: true }}
-          className="grid md:grid-cols-3 gap-8"
+          className="grid grid-cols-1 md:grid-cols-3 gap-8"
         >
           {[
             { 
@@ -151,19 +151,19 @@ export default function FinancingPage() {
             <motion.div 
               key={i} 
               variants={fadeIn}
-              className="group relative bg-zinc-900/20 border border-white/5 p-12 hover:border-red-600/50 transition-all duration-700 rounded-[2.5rem] backdrop-blur-xl overflow-hidden shadow-2xl"
+              className="group relative bg-zinc-900/20 border border-white/5 p-8 md:p-10 lg:p-12 hover:border-red-600/50 transition-all duration-700 rounded-[2rem] md:rounded-[2.5rem] backdrop-blur-xl overflow-hidden shadow-2xl"
             >
-              <div className="absolute top-0 right-0 p-8 opacity-10 group-hover:scale-125 transition-transform duration-700 text-red-500">
+              <div className="absolute top-0 right-0 p-6 md:p-8 opacity-10 group-hover:scale-125 transition-transform duration-700 text-red-500">
                 {opt.icon}
               </div>
               
               <span className="text-red-500 font-black text-[10px] uppercase tracking-[0.3em] block mb-2">{opt.tag}</span>
-              <h3 className="text-3xl font-bold uppercase italic mb-6 tracking-tight text-white group-hover:text-red-500 transition-colors">{opt.title}</h3>
-              <p className="text-zinc-400 mb-10 text-sm leading-relaxed italic">{opt.desc}</p>
+              <h3 className="text-2xl lg:text-3xl font-bold uppercase italic mb-6 tracking-tight text-white group-hover:text-red-500 transition-colors">{opt.title}</h3>
+              <p className="text-zinc-400 mb-8 md:mb-10 text-sm leading-relaxed italic">{opt.desc}</p>
               
-              <div className="space-y-4 mb-12">
+              <div className="space-y-4 mb-8 md:mb-12">
                 {opt.features.map((f, idx) => (
-                  <div key={idx} className="flex items-center gap-3 text-[11px] font-bold uppercase tracking-widest text-zinc-500">
+                  <div key={idx} className="flex items-center gap-3 text-[10px] md:text-[11px] font-bold uppercase tracking-widest text-zinc-500">
                     <div className="w-1 h-1 bg-red-600 rounded-full" />
                     {f}
                   </div>
@@ -172,7 +172,7 @@ export default function FinancingPage() {
 
               <Link 
                 href="/support?inquiry=financing" 
-                className="group/btn relative inline-flex items-center justify-center w-full bg-white text-black py-5 rounded-2xl font-black uppercase text-[10px] tracking-[0.2em] overflow-hidden transition-all hover:bg-red-600 hover:text-white"
+                className="group/btn relative inline-flex items-center justify-center w-full bg-white text-black py-4 md:py-5 rounded-2xl font-black uppercase text-[10px] tracking-[0.2em] overflow-hidden transition-all hover:bg-red-600 hover:text-white"
               >
                 <span className="relative z-10 flex items-center gap-2">Initiate Protocol <ChevronRight className="w-3 h-3 group-hover/btn:translate-x-1 transition-transform" /></span>
               </Link>
@@ -182,22 +182,22 @@ export default function FinancingPage() {
       </section>
 
       {/* 3. Interactive Payment Engine */}
-      <section className="py-32 px-6 bg-[#080808] border-y border-white/5 mask-image-edge">
+      <section className="py-20 md:py-32 px-6 bg-[#080808] border-y border-white/5 mask-image-edge">
         <div className="container mx-auto max-w-6xl">
-          <div className="text-center mb-24">
-            <h2 className="text-5xl font-black uppercase italic italic tracking-tighter mb-4">Precision Engine</h2>
-            <p className="text-zinc-500 uppercase tracking-[0.3em] text-[10px] font-bold">Real-time payment simulation for your next acquisition</p>
+          <div className="text-center mb-16 md:mb-24">
+            <h2 className="text-4xl md:text-5xl font-black uppercase italic italic tracking-tighter mb-4">Precision Engine</h2>
+            <p className="text-zinc-500 uppercase tracking-[0.2em] md:tracking-[0.3em] text-[10px] font-bold">Real-time payment simulation for your next acquisition</p>
           </div>
 
-          <div className="grid lg:grid-cols-12 gap-16 items-start">
+          <div className="grid md:grid-cols-1 xl:grid-cols-12 gap-8 md:gap-16 items-start">
             {/* Inputs */}
-            <div className="lg:col-span-7 space-y-12 bg-zinc-900/40 p-12 rounded-[3rem] border border-white/5 backdrop-blur-md shadow-inner">
+            <div className="xl:col-span-7 space-y-8 md:space-y-12 bg-zinc-900/40 p-8 md:p-12 rounded-[2.5rem] md:rounded-[3rem] border border-white/5 backdrop-blur-md shadow-inner">
               
               {/* Slider 1: Price */}
               <div className="space-y-6">
                 <div className="flex justify-between items-end">
                   <label className="text-[10px] uppercase font-black text-zinc-500 tracking-[0.3em]">Acquisition Capital</label>
-                  <span className="text-2xl font-black italic text-red-500">{formatCurrency(price)}</span>
+                  <span className="text-xl md:text-2xl font-black italic text-red-500">{formatCurrency(price)}</span>
                 </div>
                 <input 
                   type="range" 
@@ -214,7 +214,7 @@ export default function FinancingPage() {
               <div className="space-y-6">
                 <div className="flex justify-between items-end">
                   <label className="text-[10px] uppercase font-black text-zinc-500 tracking-[0.3em]">Initial Liquidity</label>
-                  <span className="text-2xl font-black italic text-white/90">{formatCurrency(downPayment)}</span>
+                  <span className="text-xl md:text-2xl font-black italic text-white/90">{formatCurrency(downPayment)}</span>
                 </div>
                 <input 
                   type="range" 
@@ -259,9 +259,9 @@ export default function FinancingPage() {
             </div>
 
             {/* Output Display */}
-            <div className="lg:col-span-5 relative group">
+            <div className="xl:col-span-5 relative group">
               <div className="absolute -inset-0.5 bg-gradient-to-br from-red-600 to-zinc-900 rounded-[3rem] blur opacity-20 group-hover:opacity-40 transition duration-1000" />
-              <div className="relative bg-zinc-900 border border-white/10 p-16 rounded-[3rem] flex flex-col justify-center items-center text-center shadow-2xl h-full overflow-hidden">
+              <div className="relative bg-zinc-900 border border-white/10 p-8 md:p-12 lg:p-16 rounded-[3rem] flex flex-col justify-center items-center text-center shadow-2xl h-full overflow-hidden">
                 
                 {/* Visual Accent */}
                 <div className="absolute top-0 right-0 p-8 transform rotate-12 opacity-5 select-none text-[200px] font-black italic -mr-4 -mt-10">

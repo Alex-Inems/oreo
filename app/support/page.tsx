@@ -23,7 +23,7 @@ export default async function SupportPage({
     };
 
     return (
-        <div className="relative min-h-screen w-full flex items-center justify-center pt-24 pb-12 px-8 overflow-hidden">
+        <div className="relative min-h-screen w-full flex items-center justify-center pt-32 md:pt-44 pb-12 px-8 overflow-hidden">
             {/* Background Image with Overlay */}
             <div className="absolute inset-0 z-0">
                 <img
@@ -38,8 +38,8 @@ export default async function SupportPage({
 
                 {/* Header */}
                 <div className="text-center space-y-4">
-                    <h1 className="text-5xl md:text-7xl font-black tracking-tighter text-white uppercase italic">{getHeadline()}</h1>
-                    <p className="text-xl text-zinc-300 uppercase tracking-widest max-w-2xl mx-auto leading-relaxed">
+                    <h1 className="text-3xl md:text-7xl font-black tracking-tighter text-white uppercase italic leading-tight">{getHeadline()}</h1>
+                    <p className="text-base md:text-xl text-zinc-300 uppercase tracking-widest max-w-2xl mx-auto leading-relaxed px-4">
                         {getSubline()}
                     </p>
                 </div>

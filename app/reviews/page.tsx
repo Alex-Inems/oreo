@@ -215,7 +215,7 @@ export default function ReviewsPage() {
     <div className="bg-[#050505] text-white min-h-screen selection:bg-red-600/30 overflow-x-hidden">
       
       {/* 1. Cinematic Hero */}
-      <section className="relative min-h-[70vh] flex items-center justify-center pt-20 overflow-hidden">
+      <section className="relative min-h-[60vh] md:min-h-[70vh] flex items-center justify-center pt-32 md:pt-44 pb-12 overflow-hidden">
         <div className="absolute inset-0 z-0">
           <FallbackImage 
             initial={{ scale: 1.1, opacity: 0 }}
@@ -229,20 +229,20 @@ export default function ReviewsPage() {
           <div className="absolute inset-0 bg-gradient-to-b from-black/80 via-black/40 to-[#050505]" />
         </div>
 
-        <div className="relative z-10 text-center container px-6 mt-20">
+        <div className="relative z-10 text-center container px-6 mt-12 md:mt-20">
           <motion.div
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 1, ease: [0.16, 1, 0.3, 1] }}
           >
-            <span className="inline-block text-red-500 font-black tracking-[0.5em] uppercase text-xs mb-6 border-b-2 border-red-600 pb-2">
+            <span className="inline-block text-red-500 font-black tracking-[0.5em] uppercase text-[10px] md:text-xs mb-6 border-b-2 border-red-600 pb-2">
               The Collective Presence
             </span>
-            <h1 className="text-6xl md:text-9xl font-black uppercase italic tracking-tighter leading-[0.9] mb-8">
+            <h1 className="text-5xl md:text-7xl lg:text-8xl xl:text-9xl font-black uppercase italic tracking-tighter leading-[1] md:leading-[0.9] mb-8">
               Client <br /> 
               <span className="text-transparent bg-clip-text bg-gradient-to-r from-white via-zinc-400 to-zinc-600 italic">Testimony</span>
             </h1>
-            <p className="text-lg md:text-2xl text-zinc-400 font-medium max-w-2xl mx-auto italic leading-relaxed">
+            <p className="text-base md:text-2xl text-zinc-400 font-medium max-w-2xl mx-auto italic leading-relaxed">
               Real-world accounts from the global network of performance elite.
             </p>
           </motion.div>
@@ -250,12 +250,12 @@ export default function ReviewsPage() {
       </section>
 
       {/* 2. KPI Dashboard */}
-      <section className="relative z-20 -mt-20 container mx-auto px-6 mb-32">
+      <section className="relative z-20 -mt-12 md:-mt-20 container mx-auto px-6 mb-24 md:mb-32">
         <motion.div 
           initial={{ opacity: 0, scale: 0.95 }}
           animate={{ opacity: 1, scale: 1 }}
           transition={{ duration: 1, delay: 0.5 }}
-          className="grid grid-cols-1 md:grid-cols-4 gap-px bg-white/5 border border-white/5 rounded-[3rem] overflow-hidden backdrop-blur-3xl shadow-2xl"
+          className="grid grid-cols-2 lg:grid-cols-4 gap-px bg-white/5 border border-white/5 rounded-[2rem] md:rounded-[3rem] overflow-hidden backdrop-blur-3xl shadow-2xl"
         >
           {[
             { label: "Global Rating", value: "4.9/5", icon: <Star className="w-5 h-5 text-red-600" /> },
@@ -263,10 +263,10 @@ export default function ReviewsPage() {
             { label: "Asset Value Transacted", value: "$420M+", icon: <Award className="w-5 h-5 text-red-600" /> },
             { label: "Elite Members", value: "850+", icon: <Users className="w-5 h-5 text-red-600" /> }
           ].map((stat, i) => (
-            <div key={i} className="bg-zinc-950/60 p-12 text-center group hover:bg-white/5 transition-colors duration-500">
-              <div className="flex justify-center mb-6 transform group-hover:scale-110 transition-transform duration-500">{stat.icon}</div>
-              <div className="text-4xl min-[2000px]:text-5xl font-black italic mb-2 tracking-tighter">{stat.value}</div>
-              <p className="text-[10px] text-zinc-500 font-black uppercase tracking-[0.3em]">{stat.label}</p>
+            <div key={i} className="bg-zinc-950/60 p-6 md:p-12 text-center group hover:bg-white/5 transition-colors duration-500">
+              <div className="flex justify-center mb-4 md:mb-6 transform group-hover:scale-110 transition-transform duration-500">{stat.icon}</div>
+              <div className="text-2xl md:text-5xl font-black italic mb-2 tracking-tighter">{stat.value}</div>
+              <p className="text-[8px] md:text-[10px] text-zinc-500 font-black uppercase tracking-[0.3em]">{stat.label}</p>
             </div>
           ))}
         </motion.div>

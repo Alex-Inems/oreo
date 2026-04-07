@@ -24,6 +24,7 @@ export interface Car {
   description: string;
   specs:     CarSpec[];
   featured:  boolean;
+  status:    "Available" | "Reserved" | "Sold";
   createdAt?: any;
 }
 
