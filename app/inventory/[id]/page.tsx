@@ -3,7 +3,6 @@ import { ArrowLeft, Loader2 } from "lucide-react";
 import { FallbackImage } from "@/components/UI/FallbackImage";
 import { getCarById } from "@/lib/inventory";
 import { notFound } from "next/navigation";
-import CheckoutButton from "@/components/CheckoutButton";
 import { Metadata } from "next";
 
 export async function generateMetadata({ params }: { params: { id: string } }): Promise<Metadata> {
@@ -103,14 +102,10 @@ export default async function CarDetailsPage({
 
                     {/* Actions */}
                     <div className="flex flex-col sm:flex-row gap-6 pt-10">
-                        {car.status === 'Available' ? (
-                            <CheckoutButton carId={id} />
-                        ) : (
-                            <button disabled className="flex-1 block text-center bg-zinc-800 text-zinc-500 px-8 py-4 uppercase tracking-[0.3em] font-black text-xs cursor-not-allowed border border-white/5">
-                                Asset {car.status}
-                            </button>
-                        )}
-                        <Link href={`/support?car=${id}`} className="flex-1 block text-center bg-transparent border-2 border-zinc-800 text-white px-8 py-4 uppercase tracking-[0.3em] font-black text-xs hover:border-red-600 transition-all transform hover:scale-105 shadow-2xl active:scale-95">
+                        <Link href={`/support?car=${id}`} className="flex-1 block text-center bg-red-600 text-white px-8 py-4 uppercase tracking-[0.3em] font-black text-xs hover:bg-red-700 transition-all transform hover:scale-105 shadow-2xl active:scale-95">
+                            {car.status === 'Available' ? 'Initiate Acquisition' : `Asset ${car.status}`}
+                        </Link>
+                        <Link href={`/support?car=${id}&inquiry=viewing`} className="flex-1 block text-center bg-transparent border-2 border-zinc-800 text-white px-8 py-4 uppercase tracking-[0.3em] font-black text-xs hover:border-red-600 transition-all transform hover:scale-105 shadow-2xl active:scale-95">
                             Inquire for Private viewing
                         </Link>
                     </div>
