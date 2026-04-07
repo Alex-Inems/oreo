@@ -8,8 +8,14 @@ const Hero = () => {
     const { content } = useSiteContent();
 
     return (
+        /* 
+           Cinematic Hero Section: 
+           Uses a background image with dual-layer gradients (bottom-up and top-down)
+           to ensure legibility for both the floated navbar and the centered mission text.
+           overflow-hidden is applied to prevent any motion-driven horizontal scrolling.
+        */
         <section
-            className="h-screen relative flex items-end"
+            className="h-screen relative flex items-end overflow-hidden"
             style={{
                 backgroundImage:
                     "url(https://images.unsplash.com/photo-1503376780353-7e6692767b70?auto=format&fit=crop&w=1800&q=80)",
@@ -17,10 +23,13 @@ const Hero = () => {
                 backgroundPosition: "center",
             }}
         >
+            {/* Gradient Overlays: Secure contrast for Navbar (top) and Typography (bottom) */}
             <div className="absolute inset-0 bg-gradient-to-t from-black via-black/40 to-transparent z-0" />
             <div className="absolute inset-x-0 top-0 h-40 bg-gradient-to-b from-black/60 to-transparent z-0 pointer-events-none" />
 
+            {/* Content Container: Uses max-w with relative-to-viewport constraints to prevent overflow on ultra-wide screens */}
             <div className="relative w-full max-w-[95vw] min-[2000px]:max-w-[2400px] min-[3000px]:max-w-[3200px] mx-auto px-6 md:px-8 pb-16 md:pb-32 text-white">
+                {/* Brand / Kicker */}
                 <motion.span 
                     initial={{ opacity: 0, x: -20 }}
                     animate={{ opacity: 1, x: 0 }}

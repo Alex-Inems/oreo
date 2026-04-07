@@ -33,7 +33,7 @@ export default function RootLayout({
                     className={`${geistSans.variable} ${geistMono.variable} antialiased`}
                 >
                     <Providers>
-                        <div className="bg-black text-white font-sans antialiased">
+                        <div className="bg-black text-white font-sans antialiased overflow-x-hidden">
                             <Navigation />
                             {children}
                             <Footer />
