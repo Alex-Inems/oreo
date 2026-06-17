@@ -1,10 +1,11 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono, Cormorant_Garamond } from "next/font/google";
+import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import { ClerkProvider } from "@clerk/nextjs";
 import { Providers } from "./providers";
 import Navigation from "@/components/Navigation";
 import Footer from "@/components/Footer";
+import { isClerkEnabled } from "@/lib/clerk";
 
 const geistSans = Geist({
     variable: "--font-geist-sans",
@@ -14,12 +15,6 @@ const geistSans = Geist({
 const geistMono = Geist_Mono({
     variable: "--font-geist-mono",
     subsets: ["latin"],
-});
-
-const cormorant = Cormorant_Garamond({
-    variable: "--font-cormorant",
-    subsets: ["latin"],
-    weight: ["300", "400", "500", "600"],
 });
 
 export const metadata: Metadata = {
@@ -32,21 +27,23 @@ export default function RootLayout({
 }: Readonly<{
     children: React.ReactNode;
 }>) {
+    const clerkEnabled = isClerkEnabled();
+
+    const shell = (
+        <Providers>
+            <div className="bg-white text-[var(--text-dark)] font-sans antialiased overflow-x-hidden">
+                <Navigation clerkEnabled={clerkEnabled} />
+                {children}
+                <Footer />
+            </div>
+        </Providers>
+    );
+
     return (
-        <ClerkProvider>
-            <html lang="en">
-                <body
-                    className={`${geistSans.variable} ${geistMono.variable} ${cormorant.variable} font-sans antialiased`}
-                >
-                    <Providers>
-                        <div className="bg-[var(--bg-primary)] text-[var(--text-primary)] font-sans antialiased overflow-x-hidden">
-                            <Navigation />
-                            {children}
-                            <Footer />
-                        </div>
-                    </Providers>
-                </body>
-            </html>
-        </ClerkProvider>
+        <html lang="en">
+            <body className={`${geistSans.variable} ${geistMono.variable} font-sans antialiased`}>
+                {clerkEnabled ? <ClerkProvider>{shell}</ClerkProvider> : shell}
+            </body>
+        </html>
     );
 }

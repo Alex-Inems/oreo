@@ -3,191 +3,198 @@
 import Link from "next/link";
 import { useState, useEffect } from "react";
 import { usePathname } from "next/navigation";
-import { Menu, X, LogOut } from "lucide-react";
+import { Car, ChevronDown, Menu, X, LogOut } from "lucide-react";
 import { useUser, useClerk } from "@clerk/nextjs";
 
-const NAV_LINKS = ["Inventory", "Performance", "Financing", "Reviews"];
+const NAV_LINKS = [
+    { label: "Home", href: "/" },
+    { label: "Inventory", href: "/inventory" },
+    { label: "Pages", href: "/support" },
+    { label: "Blog", href: "/reviews" },
+    { label: "Features", href: "/performance" },
+];
 
-const Navigation = () => {
-    const [scrolled, setScrolled] = useState(false);
-    const [mobileOpen, setMobileOpen] = useState(false);
-    const [userMenuOpen, setUserMenuOpen] = useState(false);
-    const pathname = usePathname();
+type NavShellProps = {
+    light: boolean;
+    pathname: string;
+    mobileOpen: boolean;
+    setMobileOpen: (v: boolean) => void;
+    authSlot: React.ReactNode;
+};
 
-    const { user, isLoaded: userLoaded, isSignedIn } = useUser();
-    const { signOut, openSignIn } = useClerk();
-
-    useEffect(() => {
-        const onScroll = () => setScrolled(window.scrollY > 20);
-        window.addEventListener("scroll", onScroll, { passive: true });
-        return () => window.removeEventListener("scroll", onScroll);
-    }, []);
-
-    if (pathname?.startsWith("/admin")) return null;
-
-    useEffect(() => {
-        if (!userMenuOpen) return;
-        const handleClick = () => setUserMenuOpen(false);
-        document.addEventListener("click", handleClick);
-        return () => document.removeEventListener("click", handleClick);
-    }, [userMenuOpen]);
-
-    const handleSignOut = async () => {
-        await signOut();
-        setUserMenuOpen(false);
-    };
-
+function NavShell({ light, pathname, mobileOpen, setMobileOpen, authSlot }: NavShellProps) {
     return (
         <header
-            className={`fixed top-0 left-0 right-0 z-[999] transition-all duration-500 ${
-                scrolled || mobileOpen
-                    ? "bg-[var(--bg-glass)] backdrop-blur-xl border-b border-[var(--border-subtle)]"
-                    : "bg-transparent"
+            className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
+                light ? "bg-transparent" : "bg-white shadow-sm border-b border-[var(--border-light)]"
             }`}
         >
-            <nav className="max-w-7xl mx-auto px-6 md:px-8">
-                <div className={`flex items-center justify-between transition-all duration-300 ${scrolled ? "py-4" : "py-6"}`}>
-                    <Link
-                        href="/"
-                        className="font-display text-xl md:text-2xl font-light tracking-wide text-[var(--text-primary)] hover:text-[var(--accent)] transition-colors"
-                    >
-                        oreo
+            <nav className="max-w-[1280px] mx-auto px-5 md:px-8">
+                <div className="flex items-center justify-between h-[72px]">
+                    <Link href="/" className="flex items-center gap-2 shrink-0">
+                        <Car className="w-7 h-7 text-[var(--orange)]" strokeWidth={1.5} />
+                        <span className={`text-xl font-bold tracking-tight ${light ? "text-white" : "text-[var(--text-dark)]"}`}>
+                            oreo
+                        </span>
                     </Link>
 
-                    <div className="hidden lg:flex items-center gap-10">
-                        {NAV_LINKS.map((item) => {
-                            const href = `/${item.toLowerCase()}`;
-                            const isActive = pathname === href;
-                            return (
-                                <Link
-                                    key={item}
-                                    href={href}
-                                    className={`text-[11px] font-medium uppercase tracking-[0.2em] transition-colors duration-300 ${
-                                        isActive ? "text-[var(--accent)]" : "text-[var(--text-muted)] hover:text-[var(--text-primary)]"
-                                    }`}
-                                >
-                                    {item}
-                                </Link>
-                            );
-                        })}
+                    <div className="hidden lg:flex items-center gap-7">
+                        {NAV_LINKS.map((item) => (
+                            <Link
+                                key={item.label}
+                                href={item.href}
+                                className={`flex items-center gap-1 text-[15px] font-medium transition-colors ${
+                                    light
+                                        ? "text-white/90 hover:text-white"
+                                        : "text-[var(--text-dark)] hover:text-[var(--orange)]"
+                                } ${pathname === item.href ? (light ? "text-white" : "text-[var(--orange)]") : ""}`}
+                            >
+                                {item.label}
+                                <ChevronDown className="w-3.5 h-3.5 opacity-60" />
+                            </Link>
+                        ))}
                     </div>
 
-                    <div className="hidden lg:flex items-center gap-6">
-                        {userLoaded && (
-                            <>
-                                {!isSignedIn ? (
-                                    <>
-                                        <button
-                                            onClick={() => openSignIn()}
-                                            className="text-[11px] font-medium uppercase tracking-[0.2em] text-[var(--text-muted)] hover:text-[var(--text-primary)] transition-colors"
-                                        >
-                                            Log In
-                                        </button>
-                                        <Link href="/sign-up" className="btn-primary !py-2.5 !px-5 !text-[10px]">
-                                            Join Fleet
-                                        </Link>
-                                    </>
-                                ) : (
-                                    <div className="relative" onClick={(e) => e.stopPropagation()}>
-                                        <button
-                                            onClick={() => setUserMenuOpen(!userMenuOpen)}
-                                            className="flex items-center gap-3 group focus:outline-none"
-                                        >
-                                            <img
-                                                src={user?.imageUrl}
-                                                alt={user?.firstName || "User"}
-                                                className="w-9 h-9 rounded-full border border-[var(--border-subtle)] group-hover:border-[var(--accent)] transition-all"
-                                            />
-                                            <span className="text-[11px] font-medium text-[var(--text-muted)] group-hover:text-[var(--text-primary)] uppercase tracking-wider">
-                                                {user?.firstName || "Account"}
-                                            </span>
-                                        </button>
-
-                                        <div
-                                            className={`absolute right-0 top-[calc(100%+8px)] w-52 bg-[var(--bg-card)] border border-[var(--border-subtle)] rounded-lg shadow-2xl overflow-hidden transition-all duration-200 origin-top-right ${
-                                                userMenuOpen ? "opacity-100 scale-100 visible" : "opacity-0 scale-95 invisible"
-                                            }`}
-                                        >
-                                            <div className="px-4 py-3 border-b border-[var(--border-subtle)]">
-                                                <p className="text-[9px] text-[var(--text-muted)] uppercase tracking-widest mb-0.5">Signed in as</p>
-                                                <p className="text-sm text-[var(--text-primary)] truncate">{user?.primaryEmailAddress?.emailAddress}</p>
-                                            </div>
-                                            <div className="p-1.5">
-                                                <button
-                                                    onClick={handleSignOut}
-                                                    className="w-full flex items-center gap-2 px-3 py-2.5 text-[10px] font-semibold tracking-widest uppercase text-[var(--text-muted)] hover:text-[var(--accent)] hover:bg-[var(--accent-muted)] rounded transition-all"
-                                                >
-                                                    <LogOut className="w-3.5 h-3.5" />
-                                                    Sign Out
-                                                </button>
-                                            </div>
-                                        </div>
-                                    </div>
-                                )}
-                            </>
-                        )}
+                    <div className="hidden lg:flex items-center gap-5">
+                        {authSlot}
+                        <Link
+                            href="/support?inquiry=submit"
+                            className={`flex items-center gap-1.5 px-5 py-2.5 rounded-md text-[14px] font-semibold border-2 transition-all ${
+                                light
+                                    ? "border-[var(--orange)] text-white hover:bg-[var(--orange)]"
+                                    : "border-[var(--orange)] text-[var(--orange)] hover:bg-[var(--orange)] hover:text-white"
+                            }`}
+                        >
+                            <span className="text-lg leading-none">+</span> Submit Vehicle
+                        </Link>
                     </div>
 
                     <button
                         onClick={() => setMobileOpen(!mobileOpen)}
-                        className="lg:hidden text-[var(--text-primary)] p-2 hover:text-[var(--accent)] transition-colors"
+                        className={`lg:hidden p-2 ${light ? "text-white" : "text-[var(--text-dark)]"}`}
                     >
-                        {mobileOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
+                        {mobileOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
                     </button>
                 </div>
 
-                <div className={`lg:hidden overflow-hidden transition-all duration-400 ${mobileOpen ? "max-h-[500px] pb-6" : "max-h-0"}`}>
-                    <div className="pt-4 border-t border-[var(--border-subtle)] space-y-1">
+                {mobileOpen && (
+                    <div className={`lg:hidden pb-6 border-t ${light ? "border-white/10" : "border-[var(--border-light)]"}`}>
                         {NAV_LINKS.map((item) => (
                             <Link
-                                key={item}
-                                href={`/${item.toLowerCase()}`}
-                                className="block py-3 text-[11px] font-medium uppercase tracking-[0.2em] text-[var(--text-muted)] hover:text-[var(--accent)] transition-colors"
+                                key={item.label}
+                                href={item.href}
                                 onClick={() => setMobileOpen(false)}
+                                className={`block py-3 text-[15px] font-medium ${light ? "text-white" : "text-[var(--text-dark)]"}`}
                             >
-                                {item}
+                                {item.label}
                             </Link>
                         ))}
-                        <div className="pt-4 mt-2 border-t border-[var(--border-subtle)]">
-                            {isSignedIn ? (
-                                <div className="space-y-4">
-                                    <div className="flex items-center gap-3 py-2">
-                                        <img src={user?.imageUrl} className="w-10 h-10 rounded-full border border-[var(--border-subtle)]" alt="" />
-                                        <div>
-                                            <p className="text-sm text-[var(--text-primary)]">{user?.fullName}</p>
-                                            <p className="text-[10px] text-[var(--text-muted)]">{user?.primaryEmailAddress?.emailAddress}</p>
-                                        </div>
-                                    </div>
-                                    <button
-                                        onClick={handleSignOut}
-                                        className="w-full btn-outline !text-center !py-3"
-                                    >
-                                        Sign Out
-                                    </button>
-                                </div>
-                            ) : (
-                                <div className="flex flex-col gap-2 pt-2">
-                                    <button
-                                        onClick={() => { openSignIn(); setMobileOpen(false); }}
-                                        className="w-full py-3 text-[11px] font-medium uppercase tracking-[0.2em] text-[var(--text-muted)] border border-[var(--border-subtle)] hover:border-[var(--accent)] transition-colors"
-                                    >
-                                        Log In
-                                    </button>
-                                    <Link
-                                        href="/sign-up"
-                                        onClick={() => setMobileOpen(false)}
-                                        className="w-full btn-primary text-center !py-3"
-                                    >
-                                        Join Fleet
-                                    </Link>
-                                </div>
-                            )}
-                        </div>
                     </div>
-                </div>
+                )}
             </nav>
         </header>
     );
-};
+}
 
-export default Navigation;
+function GuestAuthLinks({ light }: { light: boolean }) {
+    const linkClass = `text-[15px] font-medium transition-colors ${
+        light ? "text-white/90 hover:text-white" : "text-[var(--text-dark)] hover:text-[var(--orange)]"
+    }`;
+
+    return (
+        <>
+            <Link href="/sign-in" className={linkClass}>Log in</Link>
+            <Link href="/sign-up" className={linkClass}>Register</Link>
+        </>
+    );
+}
+
+function ClerkAuthLinks({ light }: { light: boolean }) {
+    const [userMenuOpen, setUserMenuOpen] = useState(false);
+    const { user, isLoaded, isSignedIn } = useUser();
+    const { signOut, openSignIn } = useClerk();
+
+    useEffect(() => {
+        if (!userMenuOpen) return;
+        const close = () => setUserMenuOpen(false);
+        document.addEventListener("click", close);
+        return () => document.removeEventListener("click", close);
+    }, [userMenuOpen]);
+
+    if (!isLoaded) return null;
+
+    if (!isSignedIn) {
+        return (
+            <>
+                <button
+                    onClick={() => openSignIn()}
+                    className={`text-[15px] font-medium transition-colors ${
+                        light ? "text-white/90 hover:text-white" : "text-[var(--text-dark)] hover:text-[var(--orange)]"
+                    }`}
+                >
+                    Log in
+                </button>
+                <Link
+                    href="/sign-up"
+                    className={`text-[15px] font-medium transition-colors ${
+                        light ? "text-white/90 hover:text-white" : "text-[var(--text-dark)] hover:text-[var(--orange)]"
+                    }`}
+                >
+                    Register
+                </Link>
+            </>
+        );
+    }
+
+    return (
+        <div className="relative" onClick={(e) => e.stopPropagation()}>
+            <button onClick={() => setUserMenuOpen(!userMenuOpen)} aria-label="User menu" className="flex items-center gap-2">
+                <img src={user?.imageUrl} alt="" className="w-8 h-8 rounded-full border-2 border-[var(--orange)]" />
+            </button>
+            {userMenuOpen && (
+                <div className="absolute right-0 top-full mt-2 w-48 bg-white rounded-lg shadow-xl border border-[var(--border-light)] py-2">
+                    <p className="px-4 py-2 text-sm font-medium text-[var(--text-dark)] truncate">{user?.firstName}</p>
+                    <button
+                        onClick={() => signOut()}
+                        className="w-full text-left px-4 py-2 text-sm text-[var(--text-muted)] hover:text-[var(--orange)] flex items-center gap-2"
+                    >
+                        <LogOut className="w-4 h-4" /> Sign Out
+                    </button>
+                </div>
+            )}
+        </div>
+    );
+}
+
+function NavigationInner({ clerkEnabled }: { clerkEnabled: boolean }) {
+    const [mobileOpen, setMobileOpen] = useState(false);
+    const [onHero, setOnHero] = useState(true);
+    const pathname = usePathname();
+    const isHome = pathname === "/";
+
+    useEffect(() => {
+        if (!isHome) { setOnHero(false); return; }
+        const onScroll = () => setOnHero(window.scrollY < window.innerHeight * 0.6);
+        onScroll();
+        window.addEventListener("scroll", onScroll, { passive: true });
+        return () => window.removeEventListener("scroll", onScroll);
+    }, [isHome]);
+
+    if (pathname?.startsWith("/admin")) return null;
+
+    const light = isHome && onHero;
+
+    return (
+        <NavShell
+            light={light}
+            pathname={pathname}
+            mobileOpen={mobileOpen}
+            setMobileOpen={setMobileOpen}
+            authSlot={clerkEnabled ? <ClerkAuthLinks light={light} /> : <GuestAuthLinks light={light} />}
+        />
+    );
+}
+
+export default function Navigation({ clerkEnabled }: { clerkEnabled: boolean }) {
+    return <NavigationInner clerkEnabled={clerkEnabled} />;
+}

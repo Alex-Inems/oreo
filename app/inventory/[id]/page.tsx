@@ -1,6 +1,6 @@
 import Link from "next/link";
-import { ArrowLeft, Loader2 } from "lucide-react";
-import { FallbackImage } from "@/components/UI/FallbackImage";
+import { ArrowLeft } from "lucide-react";
+import { CarImage } from "@/components/UI/CarImage";
 import { getCarById } from "@/lib/inventory";
 import { notFound } from "next/navigation";
 import { Metadata } from "next";
@@ -40,12 +40,10 @@ export default async function CarDetailsPage({
 
             <div className="grid md:grid-cols-2 gap-16 items-start">
                 {/* Image Section */}
-                <div className="rounded-[2.5rem] overflow-hidden border border-zinc-800 shadow-2xl relative group">
-                    <FallbackImage 
-                        src={car.image} 
-                        fallbackSrc="/public/images/car1.jpg" 
-                        alt={`${car.make} ${car.model}`} 
-                        className="w-full h-auto object-cover group-hover:scale-105 transition-transform duration-1000" 
+                <div className="rounded-2xl overflow-hidden border border-zinc-800 shadow-2xl relative group">
+                    <CarImage
+                        car={car}
+                        className="w-full h-auto object-cover group-hover:scale-105 transition-transform duration-1000"
                     />
                     <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent pointer-events-none" />
                 </div>

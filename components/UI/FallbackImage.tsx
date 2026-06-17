@@ -1,31 +1,49 @@
 "use client";
 
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import { motion, HTMLMotionProps } from "framer-motion";
+import { getCarImageUrl, normalizeImageUrl } from "@/lib/carMedia";
+import type { Car } from "@/lib/inventory";
 
 interface FallbackImageProps extends HTMLMotionProps<"img"> {
+  car?: Pick<Car, "image" | "images" | "make" | "model">;
   fallbackSrc?: string;
 }
 
-export const FallbackImage = ({ src, fallbackSrc = "/public/images/car1.jpg", alt, ...props }: FallbackImageProps) => {
-  const [imgSrc, setImgSrc] = useState(src);
-  const [errorCount, setErrorCount] = useState(0);
+const PLACEHOLDER =
+  "https://via.placeholder.com/800x600/e8e8e8/888888?text=No+Image";
+
+export const FallbackImage = ({ src, car, fallbackSrc, alt, ...props }: FallbackImageProps) => {
+  const primary = useMemo(() => {
+    const fromSrc = typeof src === "string" ? normalizeImageUrl(src) : "";
+    if (fromSrc) return fromSrc;
+    if (car) return getCarImageUrl(car);
+    return fallbackSrc || PLACEHOLDER;
+  }, [src, car, fallbackSrc]);
+
+  const [imgSrc, setImgSrc] = useState(primary);
+  const [stage, setStage] = useState(0);
 
   const handleError = () => {
-    if (errorCount === 0) {
-      setImgSrc(fallbackSrc);
-      setErrorCount(1);
-    } else if (errorCount === 1) {
-      // If even the fallback fails, use a completely safe empty one or another
-      setImgSrc("https://via.placeholder.com/800x600?text=Image+Unavailable");
-      setErrorCount(2);
+    if (stage === 0 && car) {
+      const mapped = getCarImageUrl({ ...car, image: "", images: [] });
+      if (mapped && mapped !== imgSrc) {
+        setImgSrc(mapped);
+        setStage(1);
+        return;
+      }
+    }
+    if (stage < 2) {
+      setImgSrc(fallbackSrc || PLACEHOLDER);
+      setStage(2);
     }
   };
 
   return (
     <motion.img
       {...props}
-      src={imgSrc}
+      key={primary}
+      src={imgSrc || primary}
       alt={alt}
       onError={handleError}
     />
