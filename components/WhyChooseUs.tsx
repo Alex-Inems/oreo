@@ -1,25 +1,26 @@
 "use client";
 
 const WhyChooseUs = () => (
-    <section className="py-20 md:py-32 bg-white text-black">
-        <div className="w-full max-w-[95vw] min-[2000px]:max-w-[2400px] min-[3000px]:max-w-[3200px] mx-auto px-6 md:px-8">
-            <div className="text-center mb-12 md:mb-20">
-                <span className="text-red-600 font-mono text-xs uppercase tracking-widest text-[10px] md:text-xs">The oreo Edge</span>
-                <h2 className="text-3xl md:text-5xl font-light mt-4 text-gray-900 leading-tight">Why Choose oreo</h2>
+    <section className="section-padding bg-[var(--bg-elevated)]">
+        <div className="max-w-7xl mx-auto px-6 md:px-8">
+            <div className="text-center mb-16">
+                <span className="section-label">The oreo Edge</span>
+                <h2 className="section-title mt-4">Why Choose oreo</h2>
+                <p className="section-intro mx-auto mt-4">
+                    We set a higher standard for how luxury vehicles are sourced, presented, and delivered.
+                </p>
             </div>
 
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 min-[2000px]:grid-cols-5 min-[3000px]:grid-cols-6 gap-6 md:gap-8">
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-8">
                 {[
-                    { title: "Exclusive Inventory", desc: "Access to rare and limited edition performance vehicles not found elsewhere." },
-                    { title: "Certified Vehicles", desc: "Every machine undergoes a rigorous 200-point inspection by factory-trained technicians." },
-                    { title: "Transparent Pricing", desc: "Direct market-reflective pricing with zero hidden fees or surprises." }
-                ].map((item, i) => (
-                    <div key={i} className="group p-10 bg-gray-50 border border-gray-100 hover:bg-white hover:shadow-2xl transition-all duration-500 rounded-2xl relative overflow-hidden">
-                        <div className="absolute top-0 left-0 w-1 h-0 bg-red-600 group-hover:h-full transition-all duration-500" />
-                        <h3 className="text-2xl font-light mb-6 text-gray-900">{item.title}</h3>
-                        <p className="text-gray-500 leading-relaxed">
-                            {item.desc}
-                        </p>
+                    { num: "01", title: "Exclusive Inventory", desc: "Access to rare and limited edition performance vehicles not found elsewhere. Our network spans private collections across three continents." },
+                    { num: "02", title: "Certified Vehicles", desc: "Every machine undergoes a rigorous 200-point inspection by factory-trained technicians. Full history reports included with every listing." },
+                    { num: "03", title: "Transparent Pricing", desc: "Direct market-reflective pricing with zero hidden fees or surprises. What you see is what you pay — always." },
+                ].map((item) => (
+                    <div key={item.num} className="card-surface p-8 md:p-10 group h-full">
+                        <span className="font-display text-5xl text-[var(--accent)]/25 group-hover:text-[var(--accent)]/50 transition-colors">{item.num}</span>
+                        <h3 className="font-display text-xl md:text-2xl font-light text-[var(--text-primary)] mt-4 mb-4">{item.title}</h3>
+                        <p className="text-[var(--text-muted)] text-sm leading-relaxed">{item.desc}</p>
                     </div>
                 ))}
             </div>

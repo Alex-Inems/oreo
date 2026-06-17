@@ -12,7 +12,6 @@ const Inventory = () => {
 
     useEffect(() => {
         const unsub = subscribeInventory((data) => {
-            // Display roughly up to 6 featured cars, or just the 6 latest cars
             setCars(data.slice(0, 6));
             setLoading(false);
         });
@@ -21,47 +20,57 @@ const Inventory = () => {
 
     if (loading) {
         return (
-            <section className="py-32 bg-white flex flex-col items-center justify-center gap-4 text-black">
-                <Loader2 className="w-8 h-8 animate-spin" />
-                <p className="text-sm tracking-widest uppercase font-bold text-gray-400">Loading Featured Inventory...</p>
+            <section className="py-32 bg-[var(--bg-elevated)] flex flex-col items-center justify-center gap-4">
+                <Loader2 className="w-7 h-7 animate-spin text-[var(--accent)]" />
+                <p className="text-[10px] tracking-[0.3em] uppercase text-[var(--text-muted)]">Loading Inventory</p>
             </section>
         );
     }
 
     return (
-        <section className="py-20 md:py-32 bg-white text-black">
-            <div className="w-full max-w-[95vw] min-[2000px]:max-w-[2400px] min-[3000px]:max-w-[3200px] mx-auto px-6 md:px-8">
-                <h2 className="text-3xl md:text-5xl font-light reveal mb-12 md:mb-20 text-gray-900">
-                    Featured Inventory
-                </h2>
+        <section className="section-padding bg-[var(--bg-muted)]">
+            <div className="max-w-7xl mx-auto px-6 md:px-8">
+                <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-6 mb-14">
+                    <div>
+                        <span className="section-label">Curated Selection</span>
+                        <h2 className="section-title mt-4">Featured Inventory</h2>
+                        <p className="section-intro mt-4">Hand-picked performance and luxury vehicles, ready for their next chapter.</p>
+                    </div>
+                    <Link href="/inventory" className="btn-outline !py-2.5 self-start md:self-auto">
+                        View All
+                    </Link>
+                </div>
 
-                <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 min-[2000px]:grid-cols-5 min-[3000px]:grid-cols-6 gap-6 md:gap-8 lg:gap-12">
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
                     {cars.map((car) => {
                         const hpSpec = car.specs?.find(s => s.label.toLowerCase().includes("hp") || s.label.toLowerCase().includes("power"))?.value;
                         const specString = [hpSpec ? `${hpSpec} HP` : "", car.bodyType, car.engine].filter(Boolean).join(" · ");
                         return (
-                            <div key={car.id!} className="group border border-gray-100 hover:shadow-2xl transition">
-                                <Link href={`/inventory/${car.id}`} className="block aspect-4/3 overflow-hidden relative">
+                            <div key={car.id!} className="card-surface group overflow-hidden">
+                                <Link href={`/inventory/${car.id}`} className="block aspect-[4/3] overflow-hidden relative">
                                     <FallbackImage
                                         src={car.image}
                                         fallbackSrc="/public/images/car1.jpg"
-                                        className="w-full h-full object-cover group-hover:scale-110 transition duration-1200"
+                                        className="w-full h-full object-cover group-hover:scale-105 transition duration-700"
                                         alt={car.model}
                                     />
+                                    <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/10 to-transparent" />
                                     {car.condition === "New" && (
-                                       <span className="absolute top-4 left-4 bg-red-600 text-white px-3 py-1 text-[10px] font-black uppercase tracking-widest shadow-xl">New Arrival</span>
+                                        <span className="absolute top-4 left-4 bg-[var(--accent)] text-[var(--text-on-accent)] px-3 py-1 text-[9px] font-bold uppercase tracking-widest">
+                                            New Arrival
+                                        </span>
                                     )}
+                                    <div className="absolute bottom-4 left-4 right-4 flex justify-between items-end">
+                                        <div>
+                                            <h3 className="font-display text-xl text-white">{car.make} {car.model}</h3>
+                                            <p className="text-[10px] text-[var(--text-muted)] uppercase tracking-widest mt-1">{specString}</p>
+                                        </div>
+                                        <span className="font-display text-lg text-[var(--accent)]">${car.price.toLocaleString()}</span>
+                                    </div>
                                 </Link>
-
-                                <div className="p-8">
-                                    <h3 className="text-xl font-bold mb-3 text-gray-900 line-clamp-1">{car.make} {car.model}</h3>
-                                    <p className="text-sm font-medium text-gray-500 mb-2 truncate uppercase tracking-widest">
-                                        {specString}
-                                    </p>
-                                    <p className="text-lg font-black text-red-600 mb-6">${car.price.toLocaleString()}</p>
-
-                                    <Link href={`/inventory/${car.id}`} className="text-red-600 text-sm font-bold tracking-wider uppercase flex items-center gap-2 hover:gap-3 transition-all">
-                                        View Details <ArrowRight className="w-4 h-4" />
+                                <div className="px-5 py-4 border-t border-[var(--border-subtle)]">
+                                    <Link href={`/inventory/${car.id}`} className="text-[var(--accent)] text-[10px] font-semibold tracking-[0.2em] uppercase flex items-center gap-2 group-hover:gap-3 transition-all">
+                                        View Details <ArrowRight className="w-3.5 h-3.5" />
                                     </Link>
                                 </div>
                             </div>

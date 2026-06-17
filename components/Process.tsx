@@ -1,24 +1,33 @@
 "use client";
 
 const Process = () => (
-    <section className="py-20 md:py-32 bg-white text-black">
-        <div className="w-full max-w-[95vw] min-[2000px]:max-w-[2400px] min-[3000px]:max-w-[3200px] mx-auto px-6 md:px-8">
-            <h2 className="text-3xl md:text-5xl font-light mb-16 md:mb-24 text-center text-gray-900 leading-tight">The oreo Process</h2>
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-12 lg:gap-24 relative">
-                {/* Connection Line */}
-                <div className="hidden md:block absolute top-12 left-0 w-full h-px bg-gray-100 -z-0" />
-
+    <section className="section-padding bg-[var(--bg-muted)] border-y border-[var(--border-subtle)]">
+        <div className="max-w-7xl mx-auto px-6 md:px-8">
+            <div className="text-center mb-20">
+                <span className="section-label">How It Works</span>
+                <h2 className="section-title mt-4">The oreo Process</h2>
+                <p className="section-intro mx-auto mt-4">
+                    Three deliberate steps from discovery to delivery — designed around you.
+                </p>
+            </div>
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-12 md:gap-10">
                 {[
-                    { step: "01", title: "Browse Inventory", desc: "Explore our curated selection of luxury vehicles." },
-                    { step: "02", title: "Personal Consultation", desc: "Speak with our performance specialists about your needs." },
-                    { step: "03", title: "Inaugural Drive", desc: "Experience the machine on your terms with our concierge service." },
+                    { step: "01", title: "Browse Inventory", desc: "Explore our curated selection online or visit our showroom. Filter by marque, performance, or price — every listing includes full specs and history.", detail: "500+ vehicles browsed monthly" },
+                    { step: "02", title: "Personal Consultation", desc: "Speak with our performance specialists about your needs, preferences, and financing options. Private viewings available by appointment.", detail: "Dedicated specialist assigned" },
+                    { step: "03", title: "Inaugural Drive", desc: "Experience the machine on your terms with our concierge service. White-glove delivery to your door, anywhere in the country.", detail: "48-hour delivery available" },
                 ].map((p, i) => (
-                    <div key={i} className="relative z-10 text-center">
-                        <div className="w-24 h-24 bg-white border border-gray-100 rounded-full flex items-center justify-center mx-auto mb-10 shadow-xl group hover:border-red-600 transition-colors">
-                            <span className="text-2xl font-light text-gray-400 group-hover:text-red-600 transition-colors">{p.step}</span>
+                    <div key={i} className="relative">
+                        {i < 2 && (
+                            <div className="hidden md:block absolute top-8 left-[calc(100%+1rem)] w-[calc(100%-2rem)] h-px bg-gradient-to-r from-[var(--accent)]/40 to-transparent" />
+                        )}
+                        <div className="card-surface p-8 md:p-10 h-full">
+                            <div className="inline-flex items-center justify-center w-14 h-14 rounded-full border-2 border-[var(--accent)]/30 text-[var(--accent)] font-display text-xl mb-6">
+                                {p.step}
+                            </div>
+                            <h3 className="font-display text-xl md:text-2xl font-light text-[var(--text-primary)] mb-3">{p.title}</h3>
+                            <p className="text-[var(--text-muted)] text-sm leading-relaxed mb-6">{p.desc}</p>
+                            <p className="text-[10px] uppercase tracking-widest text-[var(--accent)]">{p.detail}</p>
                         </div>
-                        <h3 className="text-2xl font-light mb-6 text-gray-900">{p.title}</h3>
-                        <p className="text-gray-500 leading-relaxed px-4">{p.desc}</p>
                     </div>
                 ))}
             </div>

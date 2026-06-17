@@ -1,34 +1,69 @@
 "use client";
 
+import Link from "next/link";
 import { Star } from "lucide-react";
+import { motion } from "framer-motion";
+
+const REVIEWS = [
+    {
+        quote: "oreo delivered an experience that matched the car itself. Smooth, transparent, exceptional.",
+        author: "Daniel Roberts",
+        role: "GT Owner",
+    },
+    {
+        quote: "From first inquiry to delivery, every detail was handled with white-glove care. Truly world-class.",
+        author: "Sarah Chen",
+        role: "McLaren 720S Owner",
+    },
+    {
+        quote: "The most transparent luxury car purchase I've ever made. No hidden fees, no surprises — just excellence.",
+        author: "Marcus Webb",
+        role: "Porsche GT3 RS Owner",
+    },
+];
 
 const Testimonial = () => (
-    <section className="relative py-20 md:py-32 bg-white overflow-hidden">
-        {/* Slanted background accent */}
-        <div className="absolute top-0 left-0 w-full h-2/3 bg-gray-50 -skew-y-3 origin-top-left" />
+    <section className="section-padding bg-[var(--bg-elevated)]">
+        <div className="max-w-7xl mx-auto px-6 md:px-8">
+            <div className="text-center mb-14">
+                <span className="section-label">Client Voices</span>
+                <h2 className="section-title mt-4">Trusted by Enthusiasts</h2>
+                <p className="section-intro mx-auto mt-4">
+                    Hear from owners who chose oreo for their most significant automotive acquisitions.
+                </p>
+            </div>
 
-        <div className="relative w-full max-w-[90vw] min-[2000px]:max-w-[1200px] min-[3000px]:max-w-[1600px] mx-auto px-6 md:px-8 text-center">
-            {/* Stars */}
-            <div className="flex justify-center mb-6 md:mb-8">
-                {[...Array(5)].map((_, i) => (
-                    <Star key={i} className="w-5 h-5 md:w-6 md:h-6 fill-yellow-500 text-yellow-500 mx-1" />
+            <div className="grid md:grid-cols-3 gap-6 md:gap-8">
+                {REVIEWS.map((review, i) => (
+                    <motion.div
+                        key={review.author}
+                        initial={{ opacity: 0, y: 24 }}
+                        whileInView={{ opacity: 1, y: 0 }}
+                        viewport={{ once: true }}
+                        transition={{ delay: i * 0.1 }}
+                        className="card-surface p-8 md:p-10 flex flex-col"
+                    >
+                        <div className="flex gap-0.5 mb-6">
+                            {[...Array(5)].map((_, j) => (
+                                <Star key={j} className="w-3.5 h-3.5 fill-[var(--accent)] text-[var(--accent)]" />
+                            ))}
+                        </div>
+                        <blockquote className="font-display text-xl md:text-2xl font-light text-[var(--text-primary)] leading-relaxed flex-1 mb-8">
+                            &ldquo;{review.quote}&rdquo;
+                        </blockquote>
+                        <div className="pt-6 border-t border-[var(--border-subtle)]">
+                            <p className="text-sm font-medium text-[var(--text-primary)]">{review.author}</p>
+                            <p className="text-[10px] uppercase tracking-widest text-[var(--text-muted)] mt-1">{review.role}</p>
+                        </div>
+                    </motion.div>
                 ))}
             </div>
 
-            {/* Testimonial Card */}
-            <div className="bg-white rounded-2xl md:rounded-3xl p-8 md:p-12 shadow-2xl border border-gray-100 relative z-10">
-                <p className="text-xl md:text-3xl font-light italic text-gray-900 mb-6 md:mb-8 leading-relaxed md:leading-relaxed">
-                    “oreo delivered an experience that matched the car itself. Smooth, transparent, exceptional.”
-                </p>
-                <p className="text-[10px] md:text-sm tracking-widest uppercase text-gray-500">
-                    Daniel Roberts · GT Owner
-                </p>
+            <div className="text-center mt-12">
+                <Link href="/reviews" className="btn-outline">
+                    Read All Reviews
+                </Link>
             </div>
-
-            {/* Optional CTA */}
-            <button className="mt-10 md:mt-12 px-10 py-3.5 md:px-12 md:py-4 border-2 border-gray-900 text-gray-900 rounded-full hover:bg-gray-900 hover:text-white transition text-[10px] md:text-sm tracking-[0.2em] uppercase">
-                Read More Reviews
-            </button>
         </div>
     </section>
 );
